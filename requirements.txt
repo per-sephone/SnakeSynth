@@ -1,0 +1,6 @@
+PySide6
+SciPy
+NumPy
+sounddevice
+pyaudio
+pygame
