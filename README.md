@@ -67,3 +67,9 @@ Regarding the implementation of MIDI, we have encountered various approaches, bu
 
 Moving forward, there are several areas we would like to improve in this project. Firstly, we recognize that we have only scratched the surface of the various synth functionalities that can be implemented. As we have limited time during the duration of this class, we were unable to explore all the possibilities. Therefore, in the future, we would like to expand the synth's capabilities by incorporating additional features such as filters, modulation sources, and effects. Additionally, we aim to enhance the user interface and provide more intuitive controls, allowing for greater experimentation and customization. Ultimately, we believe there is ample room for growth and improvement in this project, and we are excited to continue exploring and refining our synth in the future.
 _____
+
+### CRR Additions
+
+For Code Reading and Review, we will be improving this repository.
+Additional documents can be found here:
+https://docs.google.com/document/d/1WDT4E7j-O9IBMl9S6XtEHOUvt_dyF3wP5eEJXg2nwgc/edit?usp=sharing
