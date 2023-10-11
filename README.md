@@ -71,5 +71,11 @@ _____
 ### CRR Additions
 
 For Code Reading and Review, we will be improving this repository.
+
+### Contributors:
+1. Jason Gonzalez
+2. Nora Luna
+3. Kaleb Striplin
+
 Additional documents can be found here:
 https://docs.google.com/document/d/1WDT4E7j-O9IBMl9S6XtEHOUvt_dyF3wP5eEJXg2nwgc/edit?usp=sharing
