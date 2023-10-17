@@ -1,4 +1,4 @@
-'''Design idea from:
+"""Design idea from:
 https://python.plainenglish.io/making-a-synth-with-python-oscillators-2cb8e68e9c3b
 
 The provided code defines four different types of oscillators: SineOscillator, SquareOscillator, 
@@ -16,10 +16,11 @@ such as frequency, sample rate, amplitude, and duration.
 4. Optionally, you can call the play() method to play the generated wave using the default audio output device.
 5. To stop the audio playback, call the stop() method.
 
-'''
+"""
 
 from abc import ABC
 import numpy as np
+
 
 class Oscillator(ABC):
     def __init__(
@@ -46,6 +47,7 @@ class Oscillator(ABC):
         remainder = round(self._time.size % samples_per_period)
 
         return samples[0 : self._time.size - remainder]
+
 
 # SINE OSCILLATOR
 class SineOscillator(Oscillator):
@@ -146,7 +148,7 @@ class SawtoothOscillator(Oscillator):
             amplitude=amplitude,
             duration=duration,
         )
-        
+
     def generate_wave(self):
         samples = np.arange(self._sample_rate * self._duration)
 
