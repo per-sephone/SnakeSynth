@@ -17,17 +17,6 @@ The MainWidget class represents the main widget of the synthesizer application. 
 the QWidget class provided by the PySide6 library. The class contains methods for handling UI events, 
 such as button presses, knob changes, and waveform selection.
 
-MidiInputWorker Class
-The MidiInputWorker class is a part of a synthesizer GUI application written in Python using the 
-PySide6 library. 
-This class is responsible for handling MIDI input messages and connecting them to the generation of 
-tones in the synthesizer.
-
-MidiThread Class:
-The MidiThread class is responsible for managing the MIDI input functionality in a separate thread. 
-It initializes the MIDI system using pygame.midi.init() and defines a signal named start_midi_thread. 
-This class is designed to work with the MidiInputWorker class to receive and process MIDI messages
-concurrently without blocking the main user interface.
 """
 
 import os
@@ -52,10 +41,12 @@ from oscillator import (
 from adsr import ADSREnvelope, State
 from notefreq import NOTE_FREQS
 from volume import Volume
+from tone import Tone
 from midi_detect import identify_and_select_midi_device
 from midi_detect import receive_midi_input
 import pygame
 import sounddevice as sd
+import threading
 import numpy as np
 
 sd.default.latency = "low"
@@ -70,12 +61,14 @@ DEFAULT_DECAY = 7
 DEFAULT_SUSTAIN = 8
 DEFAULT_RELEASE = 3
 DEFAULT_PITCH = 3
+DEFAULT_FILTER_KNOB = 5
 
 # generate a oscillator for each key inside a dictionary
 # {"A4" : SineOscillator
 # ...
 # }
 # Note: due to saw wave and square wave implementation, generating them takes a lot longer, might need rework in the future.
+gained_waves = {}
 sine_waves = {}
 square_waves = {}
 saw_waves = {}
@@ -99,42 +92,6 @@ selected = sine_waves
 
 # Key names in the GUI
 GUI_KEY_NAMES = [
-    "C0",
-    "C#0",
-    "D0",
-    "D#0",
-    "E0",
-    "F0",
-    "F#0",
-    "G0",
-    "G#0",
-    "A0",
-    "A#0",
-    "B0",
-    "C1",
-    "C#1",
-    "D1",
-    "D#1",
-    "E1",
-    "F1",
-    "F#1",
-    "G1",
-    "G#1",
-    "A1",
-    "A#1",
-    "B1",
-    "C2",
-    "C#2",
-    "D2",
-    "D#2",
-    "E2",
-    "F2",
-    "F#2",
-    "G2",
-    "G#2",
-    "A2",
-    "A#2",
-    "B2",
     "C3",
     "C#3",
     "D3",
@@ -160,43 +117,7 @@ GUI_KEY_NAMES = [
     "A#4",
     "B4",
     "C5",
-    "C#5",
-    "D5",
-    "D#5",
-    "E5",
-    "F5",
-    "F#5",
-    "G5",
-    "G#5",
-    "A5",
-    "A#5",
-    "B5",
-    "C6",
-    "C36",
-    "D6",
-    "D#6",
-    "E6",
-    "F6",
-    "F#6",
-    "G6",
-    "G#6",
-    "A6",
-    "A#6",
-    "B6",
-    "C7",
-    "C#7",
-    "D7",
-    "D#7",
-    "E7",
-    "F7",
-    "F#7",
-    "G7",
-    "G#7",
-    "A7",
-    "A#7",
-    "B7",
 ]
-
 
 # Thread worker
 class Worker(QRunnable):
@@ -212,9 +133,8 @@ class Worker(QRunnable):
         self.fn(self.args[0])
 
 
-# Definition of MidiThread class that inherits QObject
+# Definition of a class that inherits QObject
 class MidiThread(QObject):
-    pygame.midi.init()
     # Define the start_midi_thread signal
     start_midi_thread = Signal()  # establishes a signal to manipulate
 
@@ -222,37 +142,15 @@ class MidiThread(QObject):
         self, input_device
     ):  # construct that is used for instances of MIDITHREAD class
         super().__init__()
-        pygame.midi.init()
         self.input_device = input_device
+
+    def receive_midi_input(self, input_device):
+        # Implementation of receiving MIDI input
+        # ... Put the midi message shit and triggers here
+        pass
 
     def start(self):
         self.start_midi_thread.emit()
-
-
-class MidiInputWorker(QRunnable):
-    def __init__(self, input_device, main_widget):
-        super(MidiInputWorker, self).__init__()
-
-        self.input_device = input_device
-        self.main_widget = main_widget
-
-    @Slot()
-    def run(self):
-        for midi_message in receive_midi_input(self.input_device):
-            # print("Yo! MIDI message:", midi_message) # debag line
-
-            if midi_message["status"] == 144:  # This is the note on message
-                note_value = midi_message["note"]
-                if note_value >= 12 and note_value < 122:
-                    try:
-                        note_name = self.main_widget.pitch_shifted_keys[note_value - 24]
-                        print("MIDI KEY NOTE PLAYED:", note_name)
-                        self.main_widget.button_pressed_handler(note_name)
-                    except IndexError:
-                        print("Note value is out of range. Ignoring MIDI message.")
-
-            elif midi_message["status"] == 128:  # note off message
-                self.main_widget.button_released_handler()
 
 
 class MainWidget(
@@ -261,62 +159,59 @@ class MainWidget(
     def __init__(self):
         super(MainWidget, self).__init__()
         self.vol_ctrl = Volume(DEFAULT_VOLUME, DEFAULT_VOLUME_OFFSET)
-        self.adsr_envelope = ADSREnvelope(
-            DEFAULT_ATTACK, DEFAULT_DECAY, DEFAULT_SUSTAIN, DEFAULT_RELEASE
-        )
+        self.adsr_envelope = ADSREnvelope(DEFAULT_ATTACK, DEFAULT_DECAY, DEFAULT_SUSTAIN, DEFAULT_RELEASE)
+        self.tone_ctrl = Tone(DEFAULT_FILTER_KNOB, DEFAULT_FILTER_KNOB, DEFAULT_FILTER_KNOB)
         MainWidget.win = self.load_ui()
         self.threadpool = QThreadPool()
         self.pitch_previous_value = DEFAULT_PITCH
 
         # default key mapping (matches the key names in the GUI)
-        self.pitch_shifted_keys = []
-        octave_count = 8
-
-        for octave in range(octave_count):
-            for note in [
-                "C",
-                "C#",
-                "D",
-                "D#",
-                "E",
-                "F",
-                "F#",
-                "G",
-                "G#",
-                "A",
-                "A#",
-                "B",
-            ]:
-                self.pitch_shifted_keys.append(note + str(octave))
+        self.pitch_shifted_keys = [
+            "C3",
+            "C#3",
+            "D3",
+            "D#3",
+            "E3",
+            "F3",
+            "F#3",
+            "G3",
+            "G#3",
+            "A3",
+            "A#3",
+            "B3",
+            "C4",
+            "C#4",
+            "D4",
+            "D#4",
+            "E4",
+            "F4",
+            "F#4",
+            "G4",
+            "G#4",
+            "A4",
+            "A#4",
+            "B4",
+            "C5",
+        ]
 
         # MIDI stuff here begins here:
-        pygame.midi.init()
         input_device = (
             identify_and_select_midi_device()
         )  # call device detection function once, and store it in Input_device variable
 
         # handling blurb for no-device situation
-        if input_device is not None:
-            # These lines essentially set up the MIDI thread, connect the appropriate method for receiving MIDI input, and start the thread's execution.
-            # This allows the application to receive and process MIDI messages concurrently without blocking the main user interface.
-
-            # Create an instance of MidiInputWorker
-            self.midi_worker = MidiInputWorker(input_device, self)
-
-            # Start the MidiInputWorker as a new thread
-            self.threadpool.start(self.midi_worker)
-
-            self.midi_thread = MidiThread(None)
-            # self.midi_thread.start_midi_thread.connect(lambda: self.midi_thread.receive_midi_input(input_device))
-
-            # Start the MIDI thread
-            self.midi_thread.start()
-
-        else:
+        if input_device is None:
             print(
                 "No MIDI device selected. Check Connections or Rock the SNAKESynth GUI"
             )  # readout for no MIDI device situation
 
+        self.midi_thread = MidiThread(None)
+        self.midi_thread.start_midi_thread.connect(
+            lambda: self.midi_thread.receive_midi_input(input_device)
+        )
+
+        # Start the MIDI thread
+        self.midi_thread.start()
         # /end midi stuff
 
     def load_ui(self):
@@ -409,19 +304,13 @@ class MainWidget(
     # Define a method for handling button releases
     def button_pressed_handler(self, key):
         key_mapping = list(zip(GUI_KEY_NAMES, self.pitch_shifted_keys))
-        mapped_key = (
-            None  # Initialize mapped_key with a default value for MIDI input handling
-        )
-
         for pair in key_mapping:
             if key == pair[0]:
                 mapped_key = pair[1]
-                break  # exit loop once match is found
 
-        if mapped_key is not None:  # Check if a valid mapped_key value was found
-            self.adsr_envelope.update_state(State.ATTACK)
-            worker = Worker(self.play_loop, selected_waves[mapped_key])
-            self.threadpool.start(worker)
+        self.adsr_envelope.update_state(State.ATTACK)
+        worker = Worker(self.play_loop, gained_waves[mapped_key])
+        self.threadpool.start(worker)
 
     def button_released_handler(self):
         self.adsr_envelope.update_state(State.RELEASE)
@@ -459,6 +348,9 @@ class MainWidget(
             selected_waves = saw_waves
         elif selected_waveform == "triangle":
             selected_waves = triangle_waves
+        for key in NOTE_FREQS:
+            gained_waves[key] = self.vol_ctrl.change_gain(selected_waves[key])
+            gained_waves[key] = self.tone_ctrl.filter(selected_waves[key])
 
     #
     # Handle knob values changed
@@ -508,21 +400,34 @@ class MainWidget(
         for i, key in enumerate(self.pitch_shifted_keys):
             note_name = key[:-1]
             note_octave = int(key[-1])
-            new_octave = note_octave + difference
+            new_octave = note_octave+difference
             self.pitch_shifted_keys[i] = f"{note_name}{str(new_octave)}"
 
     def handle_bass_changed(self):
         # Reflect the Bass spin box value as per the current value of the Bass dial
-        self.win.bass_double_spin_box.setValue(self.win.bass_knob.value())
+        knob_value = self.win.bass_knob.value()
+        self.win.bass_double_spin_box.setValue(knob_value)
+        self.tone_ctrl.set_bass(knob_value)
+        for key in NOTE_FREQS:
+            gained_waves[key] = self.tone_ctrl.filter(selected_waves[key])
 
     def handle_mid_changed(self):
         # Reflect the Mid spin box value as per the current value of the Mid dial
-        self.win.mid_double_spin_box.setValue(self.win.mid_knob.value())
+        knob_value = self.win.mid_knob.value()
+        self.win.mid_double_spin_box.setValue(knob_value)
+        self.tone_ctrl.set_mid(knob_value)
+        for key in NOTE_FREQS:
+            gained_waves[key] = self.tone_ctrl.filter(selected_waves[key])
+
 
     def handle_treble_changed(self):
         # Reflect the Treble spin box value as per the current value of the Treble dial
-        self.win.treble_double_spin_box.setValue(self.win.treble_knob.value())
-
+        knob_value = self.win.treble_knob.value()
+        self.win.treble_double_spin_box.setValue(knob_value)
+        self.tone_ctrl.set_treble(knob_value)
+        for key in NOTE_FREQS:
+            gained_waves[key] = self.tone_ctrl.filter(selected_waves[key])
+            
     # Whenever the knob is turned, get the new gain coefficient then apply to all keys
     def handle_volume_changed(self):
         knob_value = self.win.volume_knob.value()
