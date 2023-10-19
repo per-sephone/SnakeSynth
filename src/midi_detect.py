@@ -23,7 +23,7 @@ The loop continues until the running flag is set to False.
 
 import pygame.midi
 
-def identify_and_select_midi_device():
+def identify_device():
     pygame.midi.init()  # Initialize the Pygame MIDI module
 
     device_count = pygame.midi.get_count()  # Get the number of available MIDI devices
@@ -32,7 +32,10 @@ def identify_and_select_midi_device():
         print("No MIDI devices detected.")
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
+    
+    select_device(device_count)
 
+def select_device(device_count):
     print("Number of available MIDI input devices:", device_count)  # Print the number of available MIDI devices
 
     # Iterate over the MIDI devices and print information for each device
@@ -43,26 +46,25 @@ def identify_and_select_midi_device():
         if device_input:
             print(f"Input ID: {i}, Name: {device_name}")  # Print the ID and name of the MIDI input device
 
-    device_number_select = 1  # Select a specific MIDI device by its ID (e.g., 1)
+    device_num = 1  # Select a specific MIDI device by its ID (e.g., 1)
 
-    if device_number_select >= device_count:  # Check if the selected device number is valid
+    if device_num >= device_count:  # Check if the selected device number is valid
         print("Invalid device number selected.")
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
 
-    print('Selected Device Number is:', device_number_select)
+    print('Selected Device Number is:', device_num)
 
     # Select the desired MIDI input device
     try:
-        input_device = pygame.midi.Input(device_number_select)
+        input_device = pygame.midi.Input(device_num)
         return input_device
     except pygame.midi.MidiException as e:
         print(str(e))
         pygame.midi.quit()
         return None
 
-
-def receive_midi_input(midi_input_device):
+def receive_input(midi_input_device):
     # Main loop to receive MIDI input
     if pygame.midi.get_init() == False:
         raise RuntimeError("pygame.midi not initialised.")
@@ -95,4 +97,4 @@ def receive_midi_input(midi_input_device):
 
 # Main loop for MIDI input detection; DEBUG LINE
 # while True:
-    # receive_midi_input(input_device)
+    # receive_input(input_device)
