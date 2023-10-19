@@ -95,8 +95,6 @@ for key in NOTE_FREQS:
         NOTE_FREQS[key], SAMPLE_RATE, MAX_AMPLITUDE, DURATION
     ).generate_wave()
 
-selected = sine_waves
-
 # Key names in the GUI
 GUI_KEY_NAMES = [
     "C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0", "A#0", "B0",
@@ -230,9 +228,6 @@ class MainWidget(
         win.sustain_knob.valueChanged.connect(self.handle_sustain_changed)
         win.release_knob.valueChanged.connect(self.handle_release_changed)
         win.pitch_knob.valueChanged.connect(self.handle_pitch_changed)
-        win.bass_knob.valueChanged.connect(self.handle_bass_changed)
-        win.mid_knob.valueChanged.connect(self.handle_mid_changed)
-        win.treble_knob.valueChanged.connect(self.handle_treble_changed)
         win.volume_knob.valueChanged.connect(self.handle_volume_changed)
 
         # Connecting spin box values to its corresponding knob values
@@ -250,15 +245,6 @@ class MainWidget(
         )
         win.pitch_double_spin_box.valueChanged.connect(
             self.handle_pitch_spin_box_value_changed
-        )
-        win.bass_double_spin_box.valueChanged.connect(
-            self.handle_bass_spin_box_value_changed
-        )
-        win.mid_double_spin_box.valueChanged.connect(
-            self.handle_mid_spin_box_value_changed
-        )
-        win.treble_double_spin_box.valueChanged.connect(
-            self.handle_treble_spin_box_value_changed
         )
         win.volume_double_spin_box.valueChanged.connect(
             self.handle_volume_spin_box_value_changed
@@ -405,18 +391,6 @@ class MainWidget(
             new_octave = note_octave+difference
             self.pitch_shifted_keys[i] = f"{note_name}{str(new_octave)}"
 
-    def handle_bass_changed(self):
-        # Reflect the Bass spin box value as per the current value of the Bass dial
-        self.win.bass_double_spin_box.setValue(self.win.bass_knob.value())
-
-    def handle_mid_changed(self):
-        # Reflect the Mid spin box value as per the current value of the Mid dial
-        self.win.mid_double_spin_box.setValue(self.win.mid_knob.value())
-
-    def handle_treble_changed(self):
-        # Reflect the Treble spin box value as per the current value of the Treble dial
-        self.win.treble_double_spin_box.setValue(self.win.treble_knob.value())
-
     # Whenever the knob is turned, get the new gain coefficient then apply to all keys
     def handle_volume_changed(self):
         knob_value = self.win.volume_knob.value()
@@ -447,18 +421,6 @@ class MainWidget(
     def handle_pitch_spin_box_value_changed(self):
         # Reflect the Pitch dial value as per the current value of the Pitch spin box
         self.win.pitch_knob.setValue(self.win.pitch_double_spin_box.value())
-
-    def handle_bass_spin_box_value_changed(self):
-        # Reflect the Bass dial value as per the current value of the Bass spin box
-        self.win.bass_knob.setValue(self.win.bass_double_spin_box.value())
-
-    def handle_mid_spin_box_value_changed(self):
-        # Reflect the Mid dial value as per the current value of the Mid spin box
-        self.win.mid_knob.setValue(self.win.mid_double_spin_box.value())
-
-    def handle_treble_spin_box_value_changed(self):
-        # Reflect the Treble dial value as per the current value of the Treble spin box
-        self.win.treble_knob.setValue(self.win.treble_double_spin_box.value())
 
     def handle_volume_spin_box_value_changed(self):
         # Reflect the Volume dial value as per the current value of the Volume spin box
