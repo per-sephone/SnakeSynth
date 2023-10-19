@@ -65,10 +65,10 @@ class Filter():
 
     #Build filters coefficients
     def generate_coeff(self):
-        print(self._type)
-        print(self._rate)
-        print(self._splits)
-        print(self._gain)
+        #print(self._type)
+        #print(self._rate)
+        #print(self._splits)
+        #print(self._gain)
         freqs = 2.0 * np.array(self._splits, dtype=np.float64) / self._rate
         return signal.firwin(255, freqs, pass_zero=self._type)
     
@@ -81,7 +81,7 @@ class Filter():
     def config(self, knob_value):
         self._knob_value = knob_value
         self._gain = self.tone_gain_converter(knob_value)
-        print(self._gain)
+        #print(self._gain)
 
     # Convert from knob value to gain value for tone
     def tone_gain_converter(self, knob_value, offset=5):
