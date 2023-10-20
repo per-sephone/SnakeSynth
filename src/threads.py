@@ -20,6 +20,7 @@ from PySide6.QtCore import QObject, QRunnable, Slot, Signal
 import pygame
 from midi_detect import receive_input
 
+
 # Thread worker
 class Worker(QRunnable):
     def __init__(self, fn, *args, **kwargs):
@@ -50,25 +51,26 @@ class MidiWorker(QObject):
     def start(self):
         self.signal.emit()
 
+
 class MidiInputWorker(QRunnable):
     def __init__(self, input_device, main_widget):
         super(MidiInputWorker, self).__init__()
-        
+
         self.input_device = input_device
         self.main_widget = main_widget
 
     @Slot()
     def run(self):
         for msg in receive_input(self.input_device):
-            if msg["status"] == 144: # This is the note on message
+            if msg["status"] == 144:  # This is the note on message
                 note_value = msg["note"]
-                if note_value >= 12 and note_value < 122: 
+                if note_value >= 12 and note_value < 122:
                     try:
                         note_name = self.main_widget.pitch_shifted_keys[note_value - 24]
                         print("MIDI KEY NOTE PLAYED:", note_name)
                         self.main_widget.button_pressed_handler(note_name)
                     except IndexError:
                         print("Note value is out of range. Ignoring MIDI message.")
-                    
-            elif msg["status"] == 128: # note off message
-                self.main_widget.button_released_handler() 
+
+            elif msg["status"] == 128:  # note off message
+                self.main_widget.button_released_handler()

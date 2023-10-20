@@ -23,6 +23,7 @@ The loop continues until the running flag is set to False.
 
 import pygame.midi
 
+
 def identify_device():
     pygame.midi.init()  # Initialize the Pygame MIDI module
 
@@ -32,19 +33,26 @@ def identify_device():
         print("No MIDI devices detected.")
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
-    
+
     select_device(device_count)
 
+
 def select_device(device_count):
-    print("Number of available MIDI input devices:", device_count)  # Print the number of available MIDI devices
+    print(
+        "Number of available MIDI input devices:", device_count
+    )  # Print the number of available MIDI devices
 
     # Iterate over the MIDI devices and print information for each device
     for i in range(device_count):
         device_info = pygame.midi.get_device_info(i)
-        device_name = device_info[1].decode('utf-8')  # Decode the device name from bytes to a string
+        device_name = device_info[1].decode(
+            "utf-8"
+        )  # Decode the device name from bytes to a string
         device_input = device_info[2]  # Check if the device supports input
         if device_input:
-            print(f"Input ID: {i}, Name: {device_name}")  # Print the ID and name of the MIDI input device
+            print(
+                f"Input ID: {i}, Name: {device_name}"
+            )  # Print the ID and name of the MIDI input device
 
     device_num = 1  # Select a specific MIDI device by its ID (e.g., 1)
 
@@ -53,7 +61,7 @@ def select_device(device_count):
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
 
-    print('Selected Device Number is:', device_num)
+    print("Selected Device Number is:", device_num)
 
     # Select the desired MIDI input device
     try:
@@ -64,11 +72,12 @@ def select_device(device_count):
         pygame.midi.quit()
         return None
 
+
 def receive_input(midi_input_device):
     # Main loop to receive MIDI input
     if pygame.midi.get_init() == False:
         raise RuntimeError("pygame.midi not initialised.")
-    
+
     running = True
     while running:
         # Check if there are any MIDI messages available
@@ -79,22 +88,31 @@ def receive_input(midi_input_device):
             # Process the MIDI messages
             for event in midi_events:
                 # Extract MIDI data from the event
-                data = event[0]  # The MIDI data is stored in the first element of the event tuple
+                data = event[
+                    0
+                ]  # The MIDI data is stored in the first element of the event tuple
 
                 # Extract the specific MIDI components from the data
-                status = data[0]  # The first byte of the MIDI data represents the status byte
-                note = data[1]  # The second byte of the MIDI data represents the note value
-                velocity = data[2]  # The third byte of the MIDI data represents the velocity or intensity of the MIDI event
+                status = data[
+                    0
+                ]  # The first byte of the MIDI data represents the status byte
+                note = data[
+                    1
+                ]  # The second byte of the MIDI data represents the note value
+                velocity = data[
+                    2
+                ]  # The third byte of the MIDI data represents the velocity or intensity of the MIDI event
 
                 # Print the MIDI message debug line
                 # print("Received MIDI message: Status={status}, Note={note}, Velocity={velocity}")
 
                 # More Functionality can go here:
                 yield {"status": status, "note": note, "velocity": velocity}
-    
+
+
 # How to Call the device detection function once and store it in a variable
 # input_device = identify_and_select_midi_device()
 
 # Main loop for MIDI input detection; DEBUG LINE
 # while True:
-    # receive_input(input_device)
+# receive_input(input_device)

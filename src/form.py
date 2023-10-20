@@ -77,6 +77,7 @@ for key in NOTE_FREQS:
         NOTE_FREQS[key], SAMPLE_RATE, MAX_AMPLITUDE, DURATION
     ).generate_wave()
 
+# fmt: off
 # Key names in the GUI
 GUI_KEY_NAMES = [
     "C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0", "A#0", "B0",
@@ -88,6 +89,7 @@ GUI_KEY_NAMES = [
     "C6", "C36", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6",
     "C7", "C#7", "D7" ,"D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7"
 ]
+# fmt: on
 
 class MainWidget(
     QWidget
