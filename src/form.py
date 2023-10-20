@@ -89,16 +89,15 @@ GUI_KEY_NAMES = [
     "C7", "C#7", "D7" ,"D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7"
 ]
 
-
-
-
 class MainWidget(
     QWidget
 ):  ### defines a class named MainWidget that inherits from QWidget class. The __init__() method initializes the object of the MainWidget class. The super() function is used to call the constructor of the parent class (QWidget) and to get the instance of the MainWidget class. This allows MainWidget to inherit all the attributes and methods from QWidget.
     def __init__(self):
         super(MainWidget, self).__init__()
         self.vol_ctrl = Volume(DEFAULT_VOLUME, DEFAULT_VOLUME_OFFSET)
-        self.adsr_envelope = ADSREnvelope(DEFAULT_ATTACK, DEFAULT_DECAY, DEFAULT_SUSTAIN, DEFAULT_RELEASE)
+        self.adsr_envelope = ADSREnvelope(
+            DEFAULT_ATTACK, DEFAULT_DECAY, DEFAULT_SUSTAIN, DEFAULT_RELEASE
+        )
         MainWidget.win = self.load_ui()
         self.threadpool = QThreadPool()
         self.pitch_previous_value = DEFAULT_PITCH
@@ -108,9 +107,21 @@ class MainWidget(
         octave_count = 8
 
         for octave in range(octave_count):
-            for note in ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]:
+            for note in [
+                "C",
+                "C#",
+                "D",
+                "D#",
+                "E",
+                "F",
+                "F#",
+                "G",
+                "G#",
+                "A",
+                "A#",
+                "B",
+            ]:
                 self.pitch_shifted_keys.append(note + str(octave))
-
 
         # MIDI stuff here begins here:
         pygame.midi.init()
@@ -118,11 +129,11 @@ class MainWidget(
             identify_device()
         )  # call device detection function once, and store it in Input_device variable
 
-        #handling blurb for no-device situation 
+        # handling blurb for no-device situation
         if input_device is not None:
             # These lines essentially set up the MIDI thread, connect the appropriate method for receiving MIDI input, and start the thread's execution.
             # This allows the application to receive and process MIDI messages concurrently without blocking the main user interface.
-    
+
             # Create an instance of MidiInputWorker
             self.midi_worker = MidiInputWorker(input_device, self)
 
@@ -136,11 +147,12 @@ class MainWidget(
             self.midi_thread.start()
 
         else:
-                print("No MIDI device selected. Check Connections or Rock the SNAKESynth GUI")  # readout for no MIDI device situation 
+            print(
+                "No MIDI device selected. Check Connections or Rock the SNAKESynth GUI"
+            )  # readout for no MIDI device situation
 
-            # /end midi stuff
-        
-        
+        # /end midi stuff
+
     def load_ui(self):
         loader = QUiLoader()
         path = os.fspath(Path(__file__).resolve().parent / "../ui/form.ui")
@@ -219,7 +231,9 @@ class MainWidget(
     # Define a method for handling button releases
     def button_pressed_handler(self, key):
         key_mapping = list(zip(GUI_KEY_NAMES, self.pitch_shifted_keys))
-        mapped_key = None  # Initialize mapped_key with a default value for MIDI input handling
+        mapped_key = (
+            None  # Initialize mapped_key with a default value for MIDI input handling
+        )
 
         for pair in key_mapping:
             if key == pair[0]:
@@ -316,7 +330,7 @@ class MainWidget(
         for i, key in enumerate(self.pitch_shifted_keys):
             note_name = key[:-1]
             note_octave = int(key[-1])
-            new_octave = note_octave+difference
+            new_octave = note_octave + difference
             self.pitch_shifted_keys[i] = f"{note_name}{str(new_octave)}"
 
     # Whenever the knob is turned, get the new gain coefficient then apply to all keys
