@@ -24,7 +24,11 @@ The loop continues until the running flag is set to False.
 import pygame.midi
 
 
+<<<<<<< HEAD
 def identify_device():
+=======
+def identify_and_select_midi_device():
+>>>>>>> 84c726d1bb5039f1d6b7f216d7b9dd81a075e550
     pygame.midi.init()  # Initialize the Pygame MIDI module
 
     device_count = pygame.midi.get_count()  # Get the number of available MIDI devices
@@ -34,10 +38,13 @@ def identify_device():
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
 
+<<<<<<< HEAD
     select_device(device_count)
 
 
 def select_device(device_count):
+=======
+>>>>>>> 84c726d1bb5039f1d6b7f216d7b9dd81a075e550
     print(
         "Number of available MIDI input devices:", device_count
     )  # Print the number of available MIDI devices
@@ -56,12 +63,22 @@ def select_device(device_count):
 
     device_num = 1  # Select a specific MIDI device by its ID (e.g., 1)
 
+<<<<<<< HEAD
     if device_num >= device_count:  # Check if the selected device number is valid
+=======
+    if (
+        device_number_select >= device_count
+    ):  # Check if the selected device number is valid
+>>>>>>> 84c726d1bb5039f1d6b7f216d7b9dd81a075e550
         print("Invalid device number selected.")
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
 
+<<<<<<< HEAD
     print("Selected Device Number is:", device_num)
+=======
+    print("Selected Device Number is:", device_number_select)
+>>>>>>> 84c726d1bb5039f1d6b7f216d7b9dd81a075e550
 
     # Select the desired MIDI input device
     try:
@@ -115,4 +132,8 @@ def receive_input(midi_input_device):
 
 # Main loop for MIDI input detection; DEBUG LINE
 # while True:
+<<<<<<< HEAD
 # receive_input(input_device)
+=======
+# receive_midi_input(input_device)
+>>>>>>> 84c726d1bb5039f1d6b7f216d7b9dd81a075e550

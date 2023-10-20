@@ -13,8 +13,6 @@ MainWidget Class
 The MainWidget class represents the main widget of the synthesizer application. It inherits from 
 the QWidget class provided by the PySide6 library. The class contains methods for handling UI events, 
 such as button presses, knob changes, and waveform selection.
-
-
 """
 
 import os
@@ -332,6 +330,7 @@ class MainWidget(
         for i, key in enumerate(self.pitch_shifted_keys):
             note_name = key[:-1]
             note_octave = int(key[-1])
+            new_octave = note_octave + difference
             new_octave = note_octave + difference
             self.pitch_shifted_keys[i] = f"{note_name}{str(new_octave)}"
 
