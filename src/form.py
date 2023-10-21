@@ -8,40 +8,20 @@ Wave Generation
 After defining the constants, the code generates waveforms for each key using different oscillators 
 (sine, square, sawtooth, and triangle). These waveforms are stored in dictionaries for easy access.
 
-Worker Class
-The Worker class is a helper class that is used to run the audio processing in a separate thread 
-to avoid blocking the GUI.
 
 MainWidget Class
 The MainWidget class represents the main widget of the synthesizer application. It inherits from 
 the QWidget class provided by the PySide6 library. The class contains methods for handling UI events, 
 such as button presses, knob changes, and waveform selection.
-
-MidiInputWorker Class
-The MidiInputWorker class is a part of a synthesizer GUI application written in Python using the 
-PySide6 library. 
-This class is responsible for handling MIDI input messages and connecting them to the generation of 
-tones in the synthesizer.
-
-MidiThread Class:
-The MidiThread class is responsible for managing the MIDI input functionality in a separate thread. 
-It initializes the MIDI system using pygame.midi.init() and defines a signal named start_midi_thread. 
-This class is designed to work with the MidiInputWorker class to receive and process MIDI messages
-concurrently without blocking the main user interface.
 """
 
 import os
-import sys
 from pathlib import Path
 from PySide6.QtWidgets import (
     QWidget,
-    QFrame,
     QPushButton,
-    QRadioButton,
-    QMessageBox,
-    QApplication,
 )
-from PySide6.QtCore import QFile, Qt, QObject, QRunnable, Slot, QThreadPool, Signal
+from PySide6.QtCore import QFile, QThreadPool
 from PySide6.QtUiTools import QUiLoader
 from oscillator import (
     SineOscillator as sine,
@@ -52,8 +32,8 @@ from oscillator import (
 from adsr import ADSREnvelope, State
 from notefreq import NOTE_FREQS
 from volume import Volume
-from midi_detect import identify_and_select_midi_device
-from midi_detect import receive_midi_input
+from midi_detect import identify_device
+from threads import Worker, MidiInputWorker, MidiWorker
 import pygame
 import sounddevice as sd
 import numpy as np
@@ -95,164 +75,22 @@ for key in NOTE_FREQS:
         NOTE_FREQS[key], SAMPLE_RATE, MAX_AMPLITUDE, DURATION
     ).generate_wave()
 
-selected = sine_waves
-
+# turned linting formatting off for this python list.
+# due to its length, it is much easier to read formatted in this
+# way instead of the way it would be linted in black
+# fmt: off
 # Key names in the GUI
 GUI_KEY_NAMES = [
-    "C0",
-    "C#0",
-    "D0",
-    "D#0",
-    "E0",
-    "F0",
-    "F#0",
-    "G0",
-    "G#0",
-    "A0",
-    "A#0",
-    "B0",
-    "C1",
-    "C#1",
-    "D1",
-    "D#1",
-    "E1",
-    "F1",
-    "F#1",
-    "G1",
-    "G#1",
-    "A1",
-    "A#1",
-    "B1",
-    "C2",
-    "C#2",
-    "D2",
-    "D#2",
-    "E2",
-    "F2",
-    "F#2",
-    "G2",
-    "G#2",
-    "A2",
-    "A#2",
-    "B2",
-    "C3",
-    "C#3",
-    "D3",
-    "D#3",
-    "E3",
-    "F3",
-    "F#3",
-    "G3",
-    "G#3",
-    "A3",
-    "A#3",
-    "B3",
-    "C4",
-    "C#4",
-    "D4",
-    "D#4",
-    "E4",
-    "F4",
-    "F#4",
-    "G4",
-    "G#4",
-    "A4",
-    "A#4",
-    "B4",
-    "C5",
-    "C#5",
-    "D5",
-    "D#5",
-    "E5",
-    "F5",
-    "F#5",
-    "G5",
-    "G#5",
-    "A5",
-    "A#5",
-    "B5",
-    "C6",
-    "C36",
-    "D6",
-    "D#6",
-    "E6",
-    "F6",
-    "F#6",
-    "G6",
-    "G#6",
-    "A6",
-    "A#6",
-    "B6",
-    "C7",
-    "C#7",
-    "D7",
-    "D#7",
-    "E7",
-    "F7",
-    "F#7",
-    "G7",
-    "G#7",
-    "A7",
-    "A#7",
-    "B7",
+    "C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0", "A#0", "B0",
+    "C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1", "A1", "A#1", "B1",
+    "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2",
+    "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3",
+    "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4",
+    "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5",
+    "C6", "C36", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6",
+    "C7", "C#7", "D7" ,"D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7"
 ]
-
-
-# Thread worker
-class Worker(QRunnable):
-    def __init__(self, fn, *args, **kwargs):
-        super(Worker, self).__init__()
-        # Store constructor arguments (re-used for processing)
-        self.fn = fn
-        self.args = args
-        self.kwargs = kwargs
-
-    @Slot()  # QtCore.Slot
-    def run(self):
-        self.fn(self.args[0])
-
-
-# Definition of MidiThread class that inherits QObject
-class MidiThread(QObject):
-    pygame.midi.init()
-    # Define the start_midi_thread signal
-    start_midi_thread = Signal()  # establishes a signal to manipulate
-
-    def __init__(
-        self, input_device
-    ):  # construct that is used for instances of MIDITHREAD class
-        super().__init__()
-        pygame.midi.init()
-        self.input_device = input_device
-
-    def start(self):
-        self.start_midi_thread.emit()
-
-
-class MidiInputWorker(QRunnable):
-    def __init__(self, input_device, main_widget):
-        super(MidiInputWorker, self).__init__()
-
-        self.input_device = input_device
-        self.main_widget = main_widget
-
-    @Slot()
-    def run(self):
-        for midi_message in receive_midi_input(self.input_device):
-            # print("Yo! MIDI message:", midi_message) # debag line
-
-            if midi_message["status"] == 144:  # This is the note on message
-                note_value = midi_message["note"]
-                if note_value >= 12 and note_value < 122:
-                    try:
-                        note_name = self.main_widget.pitch_shifted_keys[note_value - 24]
-                        print("MIDI KEY NOTE PLAYED:", note_name)
-                        self.main_widget.button_pressed_handler(note_name)
-                    except IndexError:
-                        print("Note value is out of range. Ignoring MIDI message.")
-
-            elif midi_message["status"] == 128:  # note off message
-                self.main_widget.button_released_handler()
+# fmt: on
 
 
 class MainWidget(
@@ -292,7 +130,7 @@ class MainWidget(
         # MIDI stuff here begins here:
         pygame.midi.init()
         input_device = (
-            identify_and_select_midi_device()
+            identify_device()
         )  # call device detection function once, and store it in Input_device variable
 
         # handling blurb for no-device situation
@@ -306,7 +144,7 @@ class MainWidget(
             # Start the MidiInputWorker as a new thread
             self.threadpool.start(self.midi_worker)
 
-            self.midi_thread = MidiThread(None)
+            self.midi_thread = MidiWorker(None)
             # self.midi_thread.start_midi_thread.connect(lambda: self.midi_thread.receive_midi_input(input_device))
 
             # Start the MIDI thread
@@ -334,9 +172,6 @@ class MainWidget(
         win.sustain_knob.valueChanged.connect(self.handle_sustain_changed)
         win.release_knob.valueChanged.connect(self.handle_release_changed)
         win.pitch_knob.valueChanged.connect(self.handle_pitch_changed)
-        win.bass_knob.valueChanged.connect(self.handle_bass_changed)
-        win.mid_knob.valueChanged.connect(self.handle_mid_changed)
-        win.treble_knob.valueChanged.connect(self.handle_treble_changed)
         win.volume_knob.valueChanged.connect(self.handle_volume_changed)
 
         # Connecting spin box values to its corresponding knob values
@@ -354,15 +189,6 @@ class MainWidget(
         )
         win.pitch_double_spin_box.valueChanged.connect(
             self.handle_pitch_spin_box_value_changed
-        )
-        win.bass_double_spin_box.valueChanged.connect(
-            self.handle_bass_spin_box_value_changed
-        )
-        win.mid_double_spin_box.valueChanged.connect(
-            self.handle_mid_spin_box_value_changed
-        )
-        win.treble_double_spin_box.valueChanged.connect(
-            self.handle_treble_spin_box_value_changed
         )
         win.volume_double_spin_box.valueChanged.connect(
             self.handle_volume_spin_box_value_changed
@@ -511,18 +337,6 @@ class MainWidget(
             new_octave = note_octave + difference
             self.pitch_shifted_keys[i] = f"{note_name}{str(new_octave)}"
 
-    def handle_bass_changed(self):
-        # Reflect the Bass spin box value as per the current value of the Bass dial
-        self.win.bass_double_spin_box.setValue(self.win.bass_knob.value())
-
-    def handle_mid_changed(self):
-        # Reflect the Mid spin box value as per the current value of the Mid dial
-        self.win.mid_double_spin_box.setValue(self.win.mid_knob.value())
-
-    def handle_treble_changed(self):
-        # Reflect the Treble spin box value as per the current value of the Treble dial
-        self.win.treble_double_spin_box.setValue(self.win.treble_knob.value())
-
     # Whenever the knob is turned, get the new gain coefficient then apply to all keys
     def handle_volume_changed(self):
         knob_value = self.win.volume_knob.value()
@@ -553,18 +367,6 @@ class MainWidget(
     def handle_pitch_spin_box_value_changed(self):
         # Reflect the Pitch dial value as per the current value of the Pitch spin box
         self.win.pitch_knob.setValue(self.win.pitch_double_spin_box.value())
-
-    def handle_bass_spin_box_value_changed(self):
-        # Reflect the Bass dial value as per the current value of the Bass spin box
-        self.win.bass_knob.setValue(self.win.bass_double_spin_box.value())
-
-    def handle_mid_spin_box_value_changed(self):
-        # Reflect the Mid dial value as per the current value of the Mid spin box
-        self.win.mid_knob.setValue(self.win.mid_double_spin_box.value())
-
-    def handle_treble_spin_box_value_changed(self):
-        # Reflect the Treble dial value as per the current value of the Treble spin box
-        self.win.treble_knob.setValue(self.win.treble_double_spin_box.value())
 
     def handle_volume_spin_box_value_changed(self):
         # Reflect the Volume dial value as per the current value of the Volume spin box
