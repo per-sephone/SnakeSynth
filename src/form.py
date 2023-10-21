@@ -75,6 +75,9 @@ for key in NOTE_FREQS:
         NOTE_FREQS[key], SAMPLE_RATE, MAX_AMPLITUDE, DURATION
     ).generate_wave()
 
+# turned linting formatting off for this python list.
+# due to its length, it is much easier to read formatted in this
+# way instead of the way it would be linted in black
 # fmt: off
 # Key names in the GUI
 GUI_KEY_NAMES = [
@@ -88,6 +91,7 @@ GUI_KEY_NAMES = [
     "C7", "C#7", "D7" ,"D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7"
 ]
 # fmt: on
+
 
 class MainWidget(
     QWidget
@@ -330,7 +334,6 @@ class MainWidget(
         for i, key in enumerate(self.pitch_shifted_keys):
             note_name = key[:-1]
             note_octave = int(key[-1])
-            new_octave = note_octave + difference
             new_octave = note_octave + difference
             self.pitch_shifted_keys[i] = f"{note_name}{str(new_octave)}"
 

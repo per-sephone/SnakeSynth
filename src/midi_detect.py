@@ -23,6 +23,7 @@ The loop continues until the running flag is set to False.
 
 import pygame.midi
 
+
 def identify_device():
     pygame.midi.init()  # Initialize the Pygame MIDI module
 
