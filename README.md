@@ -41,6 +41,20 @@ ___
 	`pip3 install -r requirements.txt`
 4. Run the synth with the command inside of the src folder:
 	`python3 main.py`
+
+#### Development with a Virtual Environment
+
+1. Within the project create the virtual environment: `python -m venv venv`.
+2. Activate the virtual environment for your system:
+| Shell      | Command                               |
+| ---------- | ------------------------------------- |
+| bash/zsh   | `$ source <venv>/bin/activate`        |
+| PowerShell | `PS C:\> <venv>\Scripts\Activate.ps1` |
+For more options please review the [venv documentation](https://docs.python.org/3/library/venv.html#how-venvs-work).
+3. Install the required packages: `pip install -r requirements.txt`
+4. Install the development dependencies: `pip install -r dev-requirements.txt`
+5. You may now launch the application within `src/`: `python main.py`
+
 _____
 
 ### Testing
