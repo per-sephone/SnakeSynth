@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1] - 2023-10-25
+## [1.1.2] - 2023-10-25
 ### Added
 - Added CHANGELOG.md for keeping track of changes in the repository
+
+## [1.1.1] - 2023-10-25
+### Added
+- Added dev-requirements.txt
+
+### Updated
+- Updated README.md to include instructions for creating a development py environment
+- Updated requirements.txt
 
 ## [1.1.0] - 2023-10-21
 ### Removed
