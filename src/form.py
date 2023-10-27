@@ -260,7 +260,6 @@ class MainWidget(QWidget):
             key.pressed.connect(lambda note=note: self.key_pressed_handler(note))
             key.released.connect(self.key_released_handler)
 
-    
     """
     This function handles when a key is pressed.
     First it maps the named keys in the GUI to the
@@ -268,6 +267,7 @@ class MainWidget(QWidget):
     Once the keys are mapped it updates the ADSR state
     and plays the continous wave on one thread.
     """
+
     def key_pressed_handler(self, key):
         key_mapping = list(zip(GUI_KEYS, self.pitch_shifted_keys))
         mapped_key = (
@@ -315,7 +315,6 @@ class MainWidget(QWidget):
             for i in range(len(wav)):
                 out_buffer[i] = self.adsr_envelope.process(wav[i])
             stream.write(self.vol_ctrl.change_gain(out_buffer.astype(np.int16)))
-
 
     """
     This function handles when a different waveform is
@@ -456,4 +455,3 @@ class MainWidget(QWidget):
     def handle_volume_spin_box_value_changed(self):
         # Update volume knob
         self.win.volume_knob.setValue(self.win.volume_double_spin_box.value())
-
