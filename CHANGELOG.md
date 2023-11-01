@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5] - 2023-10-31
+### Added
+- Added docstrings to the ADSREnvelope class and methods (adsr.py).
+- Added type hints to variables and methods in ADSREnvelope class (adsr.py).
+### Changed
+- Updated variable names in adsr.py to improve readability.
+
 ## [1.1.4] - 2023-10-27
 ### Added
 - Added more detailed docstrings in form.py
