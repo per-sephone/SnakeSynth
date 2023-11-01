@@ -96,12 +96,13 @@ for key in NOTE_FREQS:
 
 class MainWidget(QWidget):
     """
-    defines a class named MainWidget that inherits from QWidget class. 
-    The __init__() method initializes the object of the MainWidget class. 
+    defines a class named MainWidget that inherits from QWidget class.
+    The __init__() method initializes the object of the MainWidget class.
     The super() function is used to call the constructor of the parent class (QWidget)
-    and to get the instance of the MainWidget class. This allows MainWidget to inherit 
+    and to get the instance of the MainWidget class. This allows MainWidget to inherit
     all the attributes and methods from QWidget.
     """
+
     def __init__(self) -> None:
         super(MainWidget, self).__init__()
         self.vol_ctrl: Volume = Volume(DEFAULT_VOLUME, DEFAULT_VOLUME_OFFSET)
@@ -137,9 +138,9 @@ class MainWidget(QWidget):
 
     def MIDI_init(self) -> None:
         """
-        This function sets up the MIDI thread, and connects the appropriate 
+        This function sets up the MIDI thread, and connects the appropriate
         method for receiving MIDI input, and starts the thread's execution.
-        This allows the application to receive and process MIDI messages concurrently 
+        This allows the application to receive and process MIDI messages concurrently
         without blocking the main user interface.
         """
         pygame.midi.init()
@@ -287,7 +288,7 @@ class MainWidget(QWidget):
         This function sets up continuous play of the note.
         When a key is pressed, the ADSR envelope is continuously
         applied to the wave passed in. Then volume is appled and
-        the wave is output continously so there is no break in 
+        the wave is output continously so there is no break in
         the output wave.
         """
         # Set up and start the stream.
