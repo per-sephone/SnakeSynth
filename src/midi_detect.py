@@ -30,7 +30,6 @@ def identify_device():
     device_count = pygame.midi.get_count()  # Get the number of available MIDI devices
 
     if device_count == 0:  # Check if no MIDI devices are detected
-        print("No MIDI devices detected.")
         pygame.midi.quit()  # Quit Pygame MIDI module
         return None
 
