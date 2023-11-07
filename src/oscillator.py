@@ -23,28 +23,64 @@ import numpy as np
 
 
 class Oscillator(ABC):
+    """
+    Oscillator is an abstract base class that implements common functionality for
+    concrete oscillator implementations.
+
+    Methods:
+        __init__: constructor
+        generate_wave: abstract method for generating wave
+        crop_samples: method for cropping wave
+    """
+
     def __init__(
         self,
-        frequency=220.0,
-        sample_rate=48000,
-        amplitude=np.iinfo(np.int16).max / 4,
-        duration=1.0,
-    ):
+        frequency: float = 220.0,
+        sample_rate: int = 48000,
+        amplitude: float = np.iinfo(np.int16).max / 4,
+        duration: float = 1.0,
+    ) -> None:
+        """
+        Initialization for common oscillator properties
+        Extend to create a custom oscillator
+
+        Args:
+            frequency: the frequency of the oscillator (note)
+            sample_rate: the sample rate (combines with frequency to determine step size)
+            amplitude: the amplitude of the oscillator (volume)
+            duration: the duration of the oscillator (combines with sample rate to determine time)
+        """
+
         self._frequency: float = frequency
         self._sample_rate: int = sample_rate
         self._amplitude: float = amplitude
         self._duration: float = duration
         self._step_size: float = 2.0 * np.pi * self._frequency / sample_rate
-        self._time = np.arange(int(self._sample_rate * self._duration))
+        self._time: np.ndarray = np.arange(int(self._sample_rate * self._duration))
 
-    def generate_wave(self):
+    def generate_wave(self) -> np.ndarray:
+        """
+        override to generate a wave from the settings established
+        upon construction.
+        """
+
         pass
 
-    # Crop the samples to the final zero crossing, so that the end of a wave match up with the beginning
-    # Side effects: final signal is very slightly shorter.
-    def crop_samples(self, samples):
-        samples_per_period = self._sample_rate / self._frequency
-        remainder = round(self._time.size % samples_per_period)
+    def crop_samples(self, samples: np.ndarray) -> np.ndarray:
+        """
+        This function crops the samples to the final zero crossing,
+        so the end of a wave matches up with the beginning.
+        Side effects: final signal is very slightly shorter.
+
+        Args:
+            samples: wave to be trimmed
+
+        Returns:
+            a trimmed wave
+        """
+
+        samples_per_period: float = self._sample_rate / self._frequency
+        remainder: int = round(self._time.size % samples_per_period)
 
         return samples[0 : self._time.size - remainder]
 
@@ -53,11 +89,13 @@ class Oscillator(ABC):
 class SineOscillator(Oscillator):
     def __init__(
         self,
-        frequency=440,
-        sample_rate=48000,
-        amplitude=np.iinfo(np.int16).max / 4,
-        duration=1.0,
-    ):
+        frequency: float = 440.0,
+        sample_rate: int = 48000,
+        amplitude: float = np.iinfo(np.int16).max / 4,
+        duration: float = 1.0,
+    ) -> None:
+        """Extends Oscillator.__init__"""
+
         super().__init__(
             frequency=frequency,
             sample_rate=sample_rate,
@@ -65,19 +103,23 @@ class SineOscillator(Oscillator):
             duration=duration,
         )
 
-    def generate_wave(self):
-        samples = self._amplitude * np.sin(self._step_size * self._time)
+    def generate_wave(self) -> np.ndarray:
+        """Generates a sine wave"""
+
+        samples: np.ndarray = self._amplitude * np.sin(self._step_size * self._time)
         return self.crop_samples(samples).astype(np.int16)
 
 
 class SquareOscillator(SineOscillator):
     def __init__(
         self,
-        frequency=440,
-        sample_rate=48000,
-        amplitude=np.iinfo(np.int16).max / 4,
-        duration=1.0,
-    ):
+        frequency: float = 440.0,
+        sample_rate: int = 48000,
+        amplitude: float = np.iinfo(np.int16).max / 4,
+        duration: float = 1.0,
+    ) -> None:
+        """Extends Oscillator.__init__"""
+
         super().__init__(
             frequency=frequency,
             sample_rate=sample_rate,
@@ -85,8 +127,10 @@ class SquareOscillator(SineOscillator):
             duration=duration,
         )
 
-    def generate_wave(self):
-        samples = np.sin(self._step_size * self._time)
+    def generate_wave(self) -> np.ndarray:
+        """Generates a square wave"""
+
+        samples: np.ndarray = np.sin(self._step_size * self._time)
         for x in self._time:
             if samples[x] >= 0:
                 samples[x] = self._amplitude
@@ -101,11 +145,13 @@ class SquareOscillator(SineOscillator):
 class TriangleOscillator(Oscillator):
     def __init__(
         self,
-        frequency=440,
-        sample_rate=48000,
-        amplitude=np.iinfo(np.int16).max / 4,
-        duration=1.0,
-    ):
+        frequency: float = 440.0,
+        sample_rate: int = 48000,
+        amplitude: float = np.iinfo(np.int16).max / 4,
+        duration: float = 1.0,
+    ) -> None:
+        """Extends Oscillator.__init__"""
+
         super().__init__(
             frequency=frequency,
             sample_rate=sample_rate,
@@ -113,14 +159,18 @@ class TriangleOscillator(Oscillator):
             duration=duration,
         )
 
-    def generate_wave(self):
-        samples = np.empty(int(self._sample_rate * self._duration), dtype=float)
+    def generate_wave(self) -> np.ndarray:
+        """Generates a triangle wave"""
+
+        samples: np.ndarray = np.empty(
+            int(self._sample_rate * self._duration), dtype=float
+        )
 
         # half-period
-        hp = (1 / self._frequency) / 2
+        hp: float = (1 / self._frequency) / 2
 
         # double the amplitude
-        da = self._amplitude * 2
+        da: float = self._amplitude * 2
 
         for x in self._time:
             samples[x] = (
@@ -137,11 +187,13 @@ class TriangleOscillator(Oscillator):
 class SawtoothOscillator(Oscillator):
     def __init__(
         self,
-        frequency=440,
-        sample_rate=48000,
-        amplitude=np.iinfo(np.int16).max / 4,
-        duration=1.0,
-    ):
+        frequency: float = 440.0,
+        sample_rate: int = 48000,
+        amplitude: float = np.iinfo(np.int16).max / 4,
+        duration: float = 1.0,
+    ) -> None:
+        """Extends Oscillator.__init__"""
+
         super().__init__(
             frequency=frequency,
             sample_rate=sample_rate,
@@ -149,8 +201,10 @@ class SawtoothOscillator(Oscillator):
             duration=duration,
         )
 
-    def generate_wave(self):
-        samples = np.arange(self._sample_rate * self._duration)
+    def generate_wave(self) -> np.ndarray:
+        """Generates a sawtooth wave"""
+
+        samples: np.ndarray = np.arange(self._sample_rate * self._duration)
 
         for x in self._time:
             samples[x] = (
