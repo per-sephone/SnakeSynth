@@ -161,7 +161,7 @@ class TriangleOscillator(Oscillator):
 
     def generate_wave(self) -> np.ndarray:
         """Generates a triangle wave"""
-
+        
         samples: np.ndarray = np.empty(
             int(self._sample_rate * self._duration), dtype=float
         )
