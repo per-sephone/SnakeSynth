@@ -10,26 +10,42 @@ given a knob value, use the calculate_gain() method to calculate the gain coeffi
 and the change_gain() method to dynamically adjust the gain.
 """
 import numpy as np
+import numpy.typing as npt
 
 
 class Volume:
-    def __init__(self, setting=9, offset=9):
-        self._setting = setting
+    """
+    Allows for changing the volume level and applying gain coefficients to audio signals.
+
+    Attributes:
+        volume_level: level of the audio signal
+        offset: reference point for the volume control
+    """
+
+    def __init__(self, volume_level: int = 9, offset: int = 9) -> None:
+        self._volume_level = volume_level
         self._offset = offset
+        self._gain: float = self.calculate_gain()
+
+    def config(self, volume_level: int) -> None:
+        """
+        configure all volume parameter given a knob value.
+        """
+        self._volume_level = volume_level
         self._gain = self.calculate_gain()
 
-    # configurate all volume parameter given a knob value
-    def config(self, setting):
-        self._setting = setting
-        self._gain = self.calculate_gain()
-
-    # calculate the gain coefficient based on default offset and current knob setting
-    def calculate_gain(self):
-        if self._setting < 0.1:
+    def calculate_gain(self) -> float:
+        """
+        calculate the gain coefficient based on default offset and current knob
+        volume level setting.
+        """
+        if self._volume_level < 0.1:
             return 0
-        db = 3.0 * (self._setting - self._offset)
-        return pow(10.0, db / 20.0)
+        decibels: float = 3.0 * (self._volume_level - self._offset)
+        return pow(10.0, decibels / 20.0)
 
-    # change the gain of a given sound wave
-    def change_gain(self, samples):
+    def change_gain(self, samples: npt.NDArray[np.int16]) -> npt.NDArray[np.int16]:
+        """
+        change the gain of a given sound wave.
+        """
         return (samples * self._gain).astype(np.int16)
