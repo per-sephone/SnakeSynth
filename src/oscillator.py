@@ -166,17 +166,15 @@ class TriangleOscillator(Oscillator):
             int(self._sample_rate * self._duration), dtype=float
         )
 
-        # half-period
-        hp: float = (1 / self._frequency) / 2
+        half_period: float = (1 / self._frequency) / 2
 
-        # double the amplitude
-        da: float = self._amplitude * 2
+        double_amplitude: float = self._amplitude * 2
 
         for x in self._time:
             samples[x] = (
-                da
-                / hp
-                * (hp - np.abs(np.mod(x / self._sample_rate + hp / 2, (2 * hp)) - hp))
+                double_amplitude
+                / half_period
+                * (half_period - np.abs(np.mod(x / self._sample_rate + half_period / 2, (2 * half_period)) - half_period))
                 - self._amplitude
             )
 
