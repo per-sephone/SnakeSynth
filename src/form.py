@@ -12,6 +12,8 @@ MainWidget Class
 The MainWidget class represents the main widget of the synthesizer application. It inherits from 
 the QWidget class provided by the PySide6 library. The class contains methods for handling UI events, 
 such as button presses, knob changes, and waveform selection.
+
+ChatGPT was utilized to improve the docstrings in this file.
 """
 
 import os
@@ -95,15 +97,19 @@ for key in NOTE_FREQS:
 
 
 class MainWidget(QWidget):
-    """
-    defines a class named MainWidget that inherits from QWidget class.
-    The __init__() method initializes the object of the MainWidget class.
-    The super() function is used to call the constructor of the parent class (QWidget)
-    and to get the instance of the MainWidget class. This allows MainWidget to inherit
-    all the attributes and methods from QWidget.
-    """
-
     def __init__(self) -> None:
+        """
+        Initializes an instance of the MainWidget class, inheriting attributes and methods from QWidget.
+        
+        Attributes:
+        - vol_ctrl (Volume): Manages volume control using a Volume instance.
+        - adsr_envelope (ADSREnvelope): Handles ADSR (Attack, Decay, Sustain, Release) envelope parameters.
+        - win (QWidget): Loads the UI and assigns it to the MainWidget window.
+        - threadpool (QThreadPool): Manages threads for concurrent operations.
+        - pitch_previous_value (int): Holds the default pitch value.
+        - pitch_shifted_keys (list[str]): Stores default key mappings for the GUI.
+        - octave_count (int): Defines the number of octaves for key mappings.
+        """
         super(MainWidget, self).__init__()
         self.vol_ctrl: Volume = Volume(DEFAULT_VOLUME, DEFAULT_VOLUME_OFFSET)
         self.adsr_envelope: ADSREnvelope = ADSREnvelope(
@@ -138,10 +144,11 @@ class MainWidget(QWidget):
 
     def MIDI_init(self) -> None:
         """
-        This function sets up the MIDI thread, and connects the appropriate
-        method for receiving MIDI input, and starts the thread's execution.
-        This allows the application to receive and process MIDI messages concurrently
-        without blocking the main user interface.
+        Initializes the MIDI functionality for the application.
+
+        This function sets up the MIDI thread, identifying and connecting to the appropriate
+        MIDI input device, and starts the thread's execution to enable the application
+        to asynchronously receive and process MIDI messages without obstructing the main user interface.
         """
         pygame.midi.init()
         input_device = (
@@ -159,8 +166,11 @@ class MainWidget(QWidget):
 
     def load_ui(self) -> QWidget:
         """
-        Loads the UI window and elements from the ui filepath.
-        returns the GUI window
+        Loads the graphical user interface (GUI) window and its elements from a designated UI file.
+        Utilizes the QUiLoader to load the UI window and its components from the specified file path.
+        Returns the generated GUI window after loading.
+        Returns:
+        QWidget: The generated GUI window populated with elements from the UI file.
         """
         loader: QUiLoader = QUiLoader()
         path: str = os.fspath(Path(__file__).resolve().parent / "../ui/form.ui")
@@ -179,6 +189,8 @@ class MainWidget(QWidget):
         Sets the default values for each knob on the UI:
         (Attack, Decay, Sustain, Release, Volume, Pitch)
         Sets the default wave selection
+        Args:
+        win: The UI window object where default values are to be set.
         """
         # attack
         win.attack_knob.setValue(DEFAULT_ATTACK)
@@ -204,8 +216,14 @@ class MainWidget(QWidget):
 
     def connect_knob_and_spinbox_values(self, win) -> None:
         """
-        This function connects the knob values with the
-        spinbox values for each knob/spinbox on the GUI
+        Establishes connections between knob and spinbox values in the GUI.
+
+        Args:
+        win: The UI window object where knob and spinbox values are to be connected.
+
+        This function sets up bidirectional connections between knob values and their
+        corresponding spinbox values in the GUI. Changes in either the knob or spinbox
+        will reflect in both components to maintain synchronization.
         """
         # Connecting knob values to its corresponding spin box values
         win.attack_knob.valueChanged.connect(self.handle_attack_knob_changed)
@@ -237,7 +255,11 @@ class MainWidget(QWidget):
 
     def wave_selection(self, win) -> None:
         """
-        This function controls the wave selection mechanism on the GUI
+        This function sets up connections between the different waveform selection buttons
+        on the GUI and the corresponding handler method for selecting different waveforms.
+        When a waveform button is clicked, the associated method for waveform selection is triggered.
+        Args:
+        win: The UI window object providing the waveform selection controls.
         """
         win.sine.clicked.connect(lambda: self.handle_waveform_selected("sine"))
         win.square.clicked.connect(lambda: self.handle_waveform_selected("square"))
@@ -246,7 +268,11 @@ class MainWidget(QWidget):
 
     def assign_key_handler(self, win) -> None:
         """
-        This function finds all the keys in the GUI and assign event handlers to each
+        This function identifies all the keys within the GUI and assigns event handlers to manage
+        key press and release actions for each individual key. The event handlers enable the
+        manipulation of musical notes or actions associated with the specific keys.
+        Args:
+        win: The UI window object containing the keys for which event handlers are being assigned.
         """
         keys = win.keys_frame.findChildren(QPushButton)
         for key in keys:
@@ -261,6 +287,8 @@ class MainWidget(QWidget):
         correct notes defined by the shift in pitch.
         Once the keys are mapped it updates the ADSR state
         and plays the continous wave on one thread.
+        Args:
+        win: The UI window object containing the keys for which event handlers are being assigned.
         """
         key_mapping = list(zip(GUI_KEYS, self.pitch_shifted_keys))
         mapped_key = (
@@ -290,6 +318,8 @@ class MainWidget(QWidget):
         applied to the wave passed in. Then volume is appled and
         the wave is output continously so there is no break in
         the output wave.
+        Args:
+        wav: the wave sent in to be looped
         """
         # Set up and start the stream.
         stream = sd.RawOutputStream(
@@ -311,6 +341,8 @@ class MainWidget(QWidget):
         """
         This function handles when a different waveform is
         selected in the GUI and updates the selected waveform.
+        Args:
+        selected_waveform: this is the user selected waveform
         """
         global selected_waves
         if selected_waveform == "sine":
@@ -325,6 +357,8 @@ class MainWidget(QWidget):
     def handle_attack_knob_changed(self, value) -> None:
         """
         This function handles when the attack knob value is changed.
+        Args:
+        value: the number setting for the attack knob
         """
         # Update Attack spin box
         self.win.attack_double_spin_box.setValue(self.win.attack_knob.value())
@@ -333,6 +367,8 @@ class MainWidget(QWidget):
     def handle_decay_knob_changed(self, value) -> None:
         """
         This function handles when the decay knob value is changed.
+        Args:
+        value: the number setting for the decay knob
         """
         # Update Decay spin box
         self.win.decay_double_spin_box.setValue(self.win.decay_knob.value())
@@ -341,6 +377,8 @@ class MainWidget(QWidget):
     def handle_sustain_knob_changed(self, value) -> None:
         """
         This function handles when the sustain knob value is changed.
+        Args:
+        value: the number setting for the sustain knob
         """
         # Update Sustain spin box
         self.win.sustain_double_spin_box.setValue(self.win.sustain_knob.value())
@@ -349,6 +387,8 @@ class MainWidget(QWidget):
     def handle_release_knob_changed(self, value) -> None:
         """
         This function handles when the release knob value is changed.
+        Args:
+        value: the number setting for the release knob
         """
         # Update Release spin box
         self.win.release_double_spin_box.setValue(self.win.release_knob.value())
@@ -357,6 +397,8 @@ class MainWidget(QWidget):
     def handle_pitch_knob_changed(self) -> None:
         """
         This function handles when the pitch knob value is changed.
+        Args:
+        value: the number setting for the pitch knob
         """
         knob_value = self.win.pitch_knob.value()
         # User can only change the pitch value by one unit
