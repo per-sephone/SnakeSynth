@@ -8,7 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Fixed existing unit tests for ADSR, Oscillator, and Volume classes
 ### Removed
-- Removed nused Test_git_1.py file
+- Removed unused Test_git_1.py file
+
+## [1.1.9] - 2023-11-10
+### Changed
+- Updated the readme
+- Updated doc strings in form.py
 
 ## [1.1.8] - 2023 -11-08
 ### Added
