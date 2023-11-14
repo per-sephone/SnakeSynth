@@ -397,8 +397,6 @@ class MainWidget(QWidget):
     def handle_pitch_knob_changed(self) -> None:
         """
         This function handles when the pitch knob value is changed.
-        Args:
-        value: the number setting for the pitch knob
         """
         knob_value = self.win.pitch_knob.value()
         # User can only change the pitch value by one unit
