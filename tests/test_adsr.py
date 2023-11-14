@@ -7,84 +7,62 @@ from src.adsr import ADSREnvelope
 import numpy as np
 import pytest
 
+DEFAULT_ATTACK: int = 2
+DEFAULT_DECAY: int = 7
+DEFAULT_SUSTAIN: int = 8
+DEFAULT_RELEASE: int = 3
+DEFAULT_MS: float = 0.05
 
-@pytest.fixture
-def sample_wave():
-    t = np.linspace(0, 2.0, int(48000 * 2.0), endpoint=False)
-    return 0.5 * np.sin(2.0 * np.pi * 440.0 * t)
 
-
-def test_apply_envelope(sample_wave):
+def test_apply_envelope():
     # Create an instance of ADSREnvelope
-    envelope = ADSREnvelope(sample_wave)
-
-    # Check if the envelope has been applied correctly
-    assert len(envelope._envelope) == len(sample_wave)
-    assert len(envelope._modulated_wave) == len(sample_wave)
-
-    # Check if the envelope has been applied correctly
-    attack_samples = int(envelope._attack * envelope._sample_rate)
-    decay_samples = int(envelope._decay * envelope._sample_rate)
-    release_samples = int(envelope._release * envelope._sample_rate)
-    sustain_samples = (
-        len(sample_wave) - attack_samples - decay_samples - release_samples
+    envelope = ADSREnvelope(
+        DEFAULT_ATTACK, DEFAULT_DECAY, DEFAULT_SUSTAIN, DEFAULT_RELEASE
     )
 
-    expected_envelope = np.concatenate(
-        (
-            np.linspace(0, 1, attack_samples),
-            np.linspace(1, envelope._sustain, decay_samples),
-            np.full((sustain_samples,), envelope._sustain),
-            np.linspace(envelope._sustain, 0, release_samples),
-        )
-    )
+    # # Check if the envelopes have been created correctly
+    attack_samples = envelope._attack_samples
+    decay_samples = envelope._decay_samples
+    release_samples = envelope._release_samples
 
-    assert np.array_equal(envelope._envelope, expected_envelope)
+    expected_attack_envelope = np.linspace(0, 1, attack_samples)
+    expected_decay_envelope = np.linspace(1, envelope._sustain, decay_samples)
+    expected_release_envelope = np.linspace(envelope._sustain, 0, release_samples)
 
-    normalized_wave = sample_wave / np.max(np.abs(sample_wave))
-    assert np.array_equal(envelope._modulated_wave, normalized_wave * expected_envelope)
+    assert np.array_equal(envelope._attack_envelope, expected_attack_envelope)
+    assert np.array_equal(envelope._decay_envelope, expected_decay_envelope)
+    assert np.array_equal(envelope._release_envelope, expected_release_envelope)
 
 
-def test_apply_envelope_with_custom_parameters(sample_wave):
+def test_apply_envelope_with_custom_parameters():
     # Create an instance of ADSREnvelope with custom parameters
     envelope = ADSREnvelope(
-        sample_wave,
-        attackDuration=0.1,
-        decayDuration=0.3,
-        sustainLevel=0.5,
-        releaseDuration=0.4,
+        attack_duration=0.1,
+        decay_duration=0.3,
+        sustain_level=0.5,
+        release_duration=0.4,
     )
 
-    # Check if the envelope has been applied correctly
-    assert len(envelope._envelope) == len(sample_wave)
-    assert len(envelope._modulated_wave) == len(sample_wave)
+    # Check if the envelopes have been created correctly
+    attack_samples = envelope._attack_samples
+    decay_samples = envelope._decay_samples
+    release_samples = envelope._release_samples
 
-    # Check if the envelope has been applied correctly
-    attack_samples = int(envelope._attack * envelope._sample_rate)
-    decay_samples = int(envelope._decay * envelope._sample_rate)
-    release_samples = int(envelope._release * envelope._sample_rate)
-    sustain_samples = (
-        len(sample_wave) - attack_samples - decay_samples - release_samples
-    )
+    expected_attack_envelope = np.linspace(0, 1, attack_samples)
+    expected_decay_envelope = np.linspace(1, envelope._sustain, decay_samples)
+    expected_release_envelope = np.linspace(envelope._sustain, 0, release_samples)
+    expected_attack_envelope = np.linspace(0, 1, attack_samples)
 
-    expected_envelope = np.concatenate(
-        (
-            np.linspace(0, 1, attack_samples),
-            np.linspace(1, envelope._sustain, decay_samples),
-            np.full(sustain_samples, envelope._sustain),
-            np.linspace(envelope._sustain, 0, release_samples),
-        )
-    )
-
-    assert np.array_equal(envelope._envelope, expected_envelope)
-
-    normalized_wave = sample_wave / np.max(np.abs(sample_wave))
-    assert np.array_equal(envelope._modulated_wave, normalized_wave * expected_envelope)
+    assert np.array_equal(envelope._attack_envelope, expected_attack_envelope)
+    assert np.array_equal(envelope._decay_envelope, expected_decay_envelope)
+    assert np.array_equal(envelope._release_envelope, expected_release_envelope)
 
 
-def test_default_sample_rate(sample_wave):
+def test_default_sample_rate():
     # Create an instance of ADSREnvelope with the default sample rate
-    envelope = ADSREnvelope(sample_wave)
+    envelope = ADSREnvelope(
+        DEFAULT_ATTACK, DEFAULT_DECAY, DEFAULT_SUSTAIN, DEFAULT_RELEASE
+    )
 
     # Check if the sample rate is set to the default value of 48000
     assert envelope._sample_rate == 48000

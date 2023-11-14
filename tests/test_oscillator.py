@@ -15,4 +15,11 @@ def test_sine_oscillator():
         frequency=freq, sample_rate=sample_rate, duration=duration
     )
     wave = oscillator.generate_wave()
-    assert len(wave) == sample_rate * duration
+
+    # Shorter length from crop_samples output
+    samples_per_period: float = oscillator._sample_rate / oscillator._frequency
+    remainder: int = round(oscillator._time.size % samples_per_period)
+    
+    expected_length = sample_rate * duration - remainder
+    
+    assert len(wave) == expected_length
