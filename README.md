@@ -34,26 +34,26 @@ ___
 
 ### How to Build and Run SnakeSynth
 
-1. Download the files in this repository.
-2. Ensure you have Python and pip downloaded on your local machine.
-	https://www.python.org/
-3. Download the requirements. 
-	`pip3 install -r requirements.txt`
-4. Run the synth with the command inside of the src folder:
-	`python3 main.py`
+1. Download the files in this repository.\
+2. Ensure you have Python and pip downloaded on your local machine.\
+	https://www.python.org/\
+3. Download the requirements.\
+	`pip3 install -r requirements.txt`\
+4. Run the synth with the command inside of the src folder:\
+	`python3 main.py`\
 
 #### Development with a Virtual Environment
 
-1. Within the project create the virtual environment: `python -m venv venv`.
-2. Activate the virtual environment for your system:
-| Shell      | Command                               |
-| ---------- | ------------------------------------- |
-| bash/zsh   | `$ source <venv>/bin/activate`        |
-| PowerShell | `PS C:\> <venv>\Scripts\Activate.ps1` |
-For more options please review the [venv documentation](https://docs.python.org/3/library/venv.html#how-venvs-work).
-3. Install the required packages: `pip install -r requirements.txt`
-4. Install the development dependencies: `pip install -r dev-requirements.txt`
-5. You may now launch the application within `src/`: `python main.py`
+1. Within the project create the virtual environment: `python -m venv venv`.\
+2. Activate the virtual environment for your system:\
+| Shell      | Command                               |\
+| ---------- | ------------------------------------- |\
+| bash/zsh   | `$ source <venv>/bin/activate`        |\
+| PowerShell | `PS C:\> <venv>\Scripts\Activate.ps1` |\
+For more options please review the [venv documentation](https://docs.python.org/3/library/venv.html#how-venvs-work).\
+3. Install the required packages: `pip install -r requirements.txt`\
+4. Install the development dependencies: `pip install -r dev-requirements.txt`\
+5. You may now launch the application within `src/`: `python main.py`\
 
 _____
 
@@ -68,7 +68,7 @@ _____
 _____
 ### SnakeSynth UI
 
-![synthesizer with 25 keys, wave changing options, and knobs for adsr, volume, pitch, and tone](snakeSynthUI.png)
+![synthesizer with 25 keys, wave changing options, and knobs for adsr, volume, and pitch](snakeSynthUI.png)
 _____
 
 ### Project Summary
@@ -79,17 +79,29 @@ However, we encountered a significant challenge when implementing the ADSR envel
 
 Regarding the implementation of MIDI, we have encountered various approaches, but only one has proven to be reliable: the utilization of the pygame module. Unfortunately, due to time constraints, we were unable to extensively explore alternative methods and assess their compatibility with our project. Consequently, we focused our code around the detection method that demonstrated effective performance with pygame. It is worth noting that our MIDI hardware detection was specifically validated on a Windows operating system, utilizing the Nektar Impact GX49 MIDI controller.
 
-Moving forward, there are several areas we would like to improve in this project. Firstly, we recognize that we have only scratched the surface of the various synth functionalities that can be implemented. As we have limited time during the duration of this class, we were unable to explore all the possibilities. Therefore, in the future, we would like to expand the synth's capabilities by incorporating additional features such as filters, modulation sources, and effects. Additionally, we aim to enhance the user interface and provide more intuitive controls, allowing for greater experimentation and customization. Ultimately, we believe there is ample room for growth and improvement in this project, and we are excited to continue exploring and refining our synth in the future.
+Moving forward, there are several areas we would like to improve in this project. Firstly, we recognize that we have only scratched the surface of the various synth functionalities that can be implemented. In the future, we would like to expand the synth's capabilities by incorporating additional features such as filters, modulation sources, and effects. Additionally, we aim to enhance the user interface and provide more intuitive controls, allowing for greater experimentation and customization. Ultimately, we believe there is ample room for growth and improvement in this project.
 _____
 
-### CRR Additions
+### Code Reading and Review
 
-For Code Reading and Review, we will be improving this repository.
+For Code Reading and Review, we have selected this repository to significantly improve the quality and maitainability of the code.
 
 ### Contributors:
 1. Jason Gonzalez
 2. Nora Luna
 3. Kaleb Striplin
 
-Additional documents can be found here:
-https://docs.google.com/document/d/1WDT4E7j-O9IBMl9S6XtEHOUvt_dyF3wP5eEJXg2nwgc/edit?usp=sharing
+### What We Did:
+
+- Created a bug report using github issues to track the known bug in this program
+- Removed broken features and dead code
+- Added type hints throughout the code base
+- Added docstrings throughout the code base
+- Used linting (black) to normalize the code's formatting
+- Renamed variables and functions to more accurately describe their functionality
+- Refactored large portions of code, primarily in form.py
+- Improved the unit testing framework
+- Improved the documentation throughout the code base
+- Added detailed documentation about QTCreator and how to use it for generating the UI
+- Added semantic versioning and a changelog
+- Added version numbers to requirements.txt and added dev requirements
