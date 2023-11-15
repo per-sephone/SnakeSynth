@@ -7,7 +7,7 @@ Donwload and install the latest community edition of Qt Creator from here: https
 a few install notes:    
 
 * The installer requires a free Qt account
-* Take care to claim pindividual ersonal use, and not enterprise
+* Take care to claim individual use, and not enterprise
 
 Reference documentation for the Qt Creator is here: https://doc.qt.io/qtcreator/
 
@@ -15,7 +15,7 @@ And a sub section widget based apps such as this one is here: https://doc.qt.io/
 
 ## Developer Guide
 
-First, do not manually edit the form.ui file in Qt Creator or anyhwere else. This is a automatically generated file based on the design in Qt Creator and should not be changed outside that context.
+First, do not manually edit the form.ui file in Qt Creator or anywhere else. This is a automatically generated file based on the design in Qt Creator and should not be changed outside that context.
 
 #### To start: 
 * Launch Qt Creator
