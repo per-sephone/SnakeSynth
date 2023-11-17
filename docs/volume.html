@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module volume</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+
+<td class="extra"><a href="src.html">return to src</a><br></td></tr></table>
+<td class="title">&nbsp;<br><strong class="title">Volume Class</strong></td>
+    <p><span class="code">The&nbsp;<a href="#Volume">Volume</a>&nbsp;class&nbsp;allows&nbsp;for&nbsp;changing&nbsp;the&nbsp;volume&nbsp;level&nbsp;and&nbsp;applying&nbsp;gain&nbsp;coefficients&nbsp;to&nbsp;audio&nbsp;signals.&nbsp;<br>
+To&nbsp;use&nbsp;it,&nbsp;import&nbsp;the&nbsp;class,&nbsp;create&nbsp;an&nbsp;instance,&nbsp;use&nbsp;the&nbsp;config()&nbsp;method&nbsp;to&nbsp;configure&nbsp;the&nbsp;volume&nbsp;parameter<br>
+given&nbsp;a&nbsp;knob&nbsp;value,&nbsp;use&nbsp;the&nbsp;calculate_gain()&nbsp;method&nbsp;to&nbsp;calculate&nbsp;the&nbsp;gain&nbsp;coefficients,&nbsp;<br>
+and&nbsp;the&nbsp;change_gain()&nbsp;method&nbsp;to&nbsp;dynamically&nbsp;adjust&nbsp;the&nbsp;gain.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="https://numpy.org/doc/stable/">numpy</a><br>
+</td><td class="multicolumn"><a href="https://numpy.org/devdocs/reference/typing.html">numpy.typing</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text">builtins.object
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="volume.html#Volume">Volume</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Volume">class <strong>Volume</strong></a></td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Volume">Volume</a>(volume_level:&nbsp;int&nbsp;=&nbsp;9,&nbsp;offset:&nbsp;int&nbsp;=&nbsp;9)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+Allows&nbsp;for&nbsp;changing&nbsp;the&nbsp;volume&nbsp;level&nbsp;and&nbsp;applying&nbsp;gain&nbsp;coefficients&nbsp;to&nbsp;audio&nbsp;signals.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;volume_level:&nbsp;level&nbsp;of&nbsp;the&nbsp;audio&nbsp;signal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;offset:&nbsp;reference&nbsp;point&nbsp;for&nbsp;the&nbsp;volume&nbsp;control<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Volume-__init__"><strong>__init__</strong></a>(self, volume_level: int = 9, offset: int = 9) -&gt; None</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="Volume-calculate_gain"><strong>calculate_gain</strong></a>(self) -&gt; float</dt><dd><span class="code">calculate&nbsp;the&nbsp;gain&nbsp;coefficient&nbsp;based&nbsp;on&nbsp;default&nbsp;offset&nbsp;and&nbsp;current&nbsp;knob<br>
+volume&nbsp;level&nbsp;setting.</span></dd></dl>
+
+<dl><dt><a name="Volume-change_gain"><strong>change_gain</strong></a>(self, samples: numpy.ndarray[typing.Any, numpy.dtype[numpy.int16]]) -&gt; numpy.ndarray[typing.Any, numpy.dtype[numpy.int16]]</dt><dd><span class="code">change&nbsp;the&nbsp;gain&nbsp;of&nbsp;a&nbsp;given&nbsp;sound&nbsp;wave.</span></dd></dl>
+
+<dl><dt><a name="Volume-config"><strong>config</strong></a>(self, volume_level: int) -&gt; None</dt><dd><span class="code">configure&nbsp;all&nbsp;volume&nbsp;parameter&nbsp;given&nbsp;a&nbsp;knob&nbsp;value.</span></dd></dl>
+
+
+</td></tr></table></td></tr></table>
+</body></html>

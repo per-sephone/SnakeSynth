@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module adsr</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+
+<tr class="heading-text decor">
+    <td class="extra"><a href="src.html">return to src</a><br></td>
+<td class="title">&nbsp;<br><strong class="title">ADSR class</strong></td>
+</tr>
+    <p><span class="code">Design&nbsp;inspired&nbsp;by&nbsp;<br>
+<a href="https://python.plainenglish.io/build-your-own-python-synthesizer-part-2-66396f6dad81">https://python.plainenglish.io/build-your-own-python-synthesizer-part-2-66396f6dad81</a><br>
+&nbsp;<br>
+The&nbsp;<a href="#ADSREnvelope">ADSREnvelope</a>&nbsp;class&nbsp;represents&nbsp;an&nbsp;Attack-Decay-Sustain-Release&nbsp;(ADSR)&nbsp;envelope&nbsp;used&nbsp;in&nbsp;<br>
+a&nbsp;synthesizer.&nbsp;This&nbsp;envelope&nbsp;is&nbsp;responsible&nbsp;for&nbsp;modulating&nbsp;the&nbsp;amplitude&nbsp;of&nbsp;the&nbsp;synthesized&nbsp;<br>
+waveform&nbsp;over&nbsp;time,&nbsp;creating&nbsp;dynamic&nbsp;changes&nbsp;in&nbsp;the&nbsp;sound.<br>
+&nbsp;<br>
+To&nbsp;use&nbsp;the&nbsp;<a href="#ADSREnvelope">ADSREnvelope</a>&nbsp;class,&nbsp;follow&nbsp;these&nbsp;steps:<br>
+&nbsp;<br>
+1.&nbsp;Create&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;<a href="#ADSREnvelope">ADSREnvelope</a>&nbsp;class,&nbsp;specifying&nbsp;the&nbsp;parameters&nbsp;of&nbsp;<br>
+attack,&nbsp;decay,&nbsp;sustain,&nbsp;release&nbsp;durations,&nbsp;and&nbsp;sample&nbsp;rate.<br>
+2.&nbsp;Update&nbsp;the&nbsp;envelope&nbsp;state&nbsp;using&nbsp;the&nbsp;update_state()&nbsp;method&nbsp;to&nbsp;set&nbsp;the&nbsp;initial&nbsp;state.<br>
+3.&nbsp;Optionally,&nbsp;dynamically&nbsp;update&nbsp;the&nbsp;attack,&nbsp;decay,&nbsp;sustain,&nbsp;or&nbsp;release&nbsp;parameters&nbsp;using&nbsp;the&nbsp;corresponding&nbsp;<br>
+update&nbsp;methods&nbsp;(update_attack(),&nbsp;update_decay(),&nbsp;update_sustain(),&nbsp;update_release()).<br>
+4.&nbsp;Process&nbsp;each&nbsp;sample&nbsp;of&nbsp;the&nbsp;audio&nbsp;waveform&nbsp;by&nbsp;passing&nbsp;it&nbsp;to&nbsp;the&nbsp;process()&nbsp;method,&nbsp;which&nbsp;<br>
+applies&nbsp;the&nbsp;envelope&nbsp;based&nbsp;on&nbsp;the&nbsp;current&nbsp;state&nbsp;and&nbsp;returns&nbsp;the&nbsp;output&nbsp;sample&nbsp;with&nbsp;the&nbsp;envelope&nbsp;applied.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="https://docs.python.org/3/library/enum.html#module-enum">enum</a><br>
+</td><td class="multicolumn"><a href="https://numpy.org/doc/stable/">numpy</a><br>
+</td><td class="multicolumn"><a href="https://numpy.org/devdocs/reference/typing.html">numpy.typing</a><br>
+</td><td class="multicolumn"><a href="https://python-sounddevice.readthedocs.io/en/0.4.6/">sounddevice</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dd>
+<dl>
+<dt class="heading-text"><a href="adsr.html#ADSREnvelope">ADSREnvelope</a>
+</dt></dl>
+</dd>
+<dd>
+<dl>
+<dt class="heading-text"><a href="adsr.html#State">State</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ADSREnvelope">class <strong>ADSREnvelope</strong></a></td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ADSREnvelope">ADSREnvelope</a>(attack_duration:&nbsp;float&nbsp;=&nbsp;0.5,&nbsp;decay_duration:&nbsp;int&nbsp;=&nbsp;1,&nbsp;sustain_level:&nbsp;int&nbsp;=&nbsp;1,&nbsp;release_duration:&nbsp;int&nbsp;=&nbsp;1,&nbsp;sample_rate:&nbsp;int&nbsp;=&nbsp;48000)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+The&nbsp;Attack-Decay-Sustain-Release&nbsp;(ADSR)&nbsp;envelope&nbsp;class&nbsp;is&nbsp;responsible&nbsp;for&nbsp;<br>
+shaping&nbsp;the&nbsp;parameters&nbsp;of&nbsp;the&nbsp;sound.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;attack_duration:&nbsp;the&nbsp;time&nbsp;it&nbsp;takes&nbsp;for&nbsp;a&nbsp;sound&nbsp;to&nbsp;reach&nbsp;full&nbsp;volume.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;decay_duration:&nbsp;the&nbsp;time&nbsp;it&nbsp;takes&nbsp;to&nbsp;reach&nbsp;the&nbsp;sustain&nbsp;level.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sustain_level:&nbsp;the&nbsp;level&nbsp;at&nbsp;which&nbsp;a&nbsp;sound&nbsp;is&nbsp;held.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;release_duration:&nbsp;the&nbsp;time&nbsp;it&nbsp;takes&nbsp;for&nbsp;a&nbsp;sound&nbsp;to&nbsp;gradually&nbsp;fade.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sample_rate:&nbsp;speed&nbsp;that&nbsp;samples&nbsp;are&nbsp;loaded&nbsp;in&nbsp;cycles&nbsp;per&nbsp;second&nbsp;(hertz)<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="ADSREnvelope-__init__"><strong>__init__</strong></a>(self, attack_duration: float = 0.5, decay_duration: int = 1, sustain_level: int = 1, release_duration: int = 1, sample_rate: int = 48000) -&gt; None</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-create_attack_envelope"><strong>create_attack_envelope</strong></a>(self) -&gt; numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</dt><dd><span class="code">Create&nbsp;an&nbsp;array&nbsp;of&nbsp;evenly&nbsp;spaced&nbsp;numbers&nbsp;from&nbsp;0&nbsp;to&nbsp;1&nbsp;<br>
+with&nbsp;the&nbsp;attack&nbsp;sample&nbsp;as&nbsp;the&nbsp;step</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-create_decay_envelope"><strong>create_decay_envelope</strong></a>(self) -&gt; numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</dt><dd><span class="code">Create&nbsp;an&nbsp;array&nbsp;of&nbsp;evenly&nbsp;spaced&nbsp;numbers&nbsp;from&nbsp;1&nbsp;to&nbsp;the&nbsp;sustain<br>
+with&nbsp;the&nbsp;decay&nbsp;sample&nbsp;as&nbsp;the&nbsp;step</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-create_release_envelope"><strong>create_release_envelope</strong></a>(self) -&gt; numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</dt><dd><span class="code">Create&nbsp;an&nbsp;array&nbsp;of&nbsp;evenly&nbsp;spaced&nbsp;numbers&nbsp;from&nbsp;the&nbsp;sustain&nbsp;to&nbsp;0<br>
+with&nbsp;the&nbsp;release&nbsp;sample&nbsp;as&nbsp;the&nbsp;step</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-process"><strong>process</strong></a>(self, sample: numpy.int16) -&gt; float | None</dt><dd><span class="code">takes&nbsp;in&nbsp;a&nbsp;sample,&nbsp;process&nbsp;based&nbsp;on&nbsp;state,&nbsp;return&nbsp;sample&nbsp;with&nbsp;envelope&nbsp;applied</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-update_attack"><strong>update_attack</strong></a>(self, attack_duration: float) -&gt; None</dt><dd><span class="code">update&nbsp;the&nbsp;attack&nbsp;samples&nbsp;and&nbsp;recreate&nbsp;the&nbsp;attack&nbsp;envelope</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-update_decay"><strong>update_decay</strong></a>(self, decay_duration: int) -&gt; None</dt><dd><span class="code">update&nbsp;the&nbsp;decay&nbsp;samples&nbsp;and&nbsp;recreate&nbsp;the&nbsp;decay&nbsp;envelope</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-update_release"><strong>update_release</strong></a>(self, release_duration: int) -&gt; None</dt><dd><span class="code">update&nbsp;the&nbsp;release&nbsp;samples&nbsp;and&nbsp;recreate&nbsp;the&nbsp;release&nbsp;envelope</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-update_state"><strong>update_state</strong></a>(self, state: adsr.State) -&gt; None</dt><dd><span class="code">updates&nbsp;the&nbsp;current&nbsp;ADSR&nbsp;state</span></dd></dl>
+
+<dl><dt><a name="ADSREnvelope-update_sustain"><strong>update_sustain</strong></a>(self, sustain_level: int) -&gt; None</dt><dd><span class="code">recalculate&nbsp;and&nbsp;update&nbsp;the&nbsp;sustain</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="State">class <strong>State</strong></a></td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#State">State</a>(value,&nbsp;names=None,&nbsp;*,&nbsp;module=None,&nbsp;qualname=None,&nbsp;type=None,&nbsp;start=1,&nbsp;boundary=None)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="adsr.html#State">State</a></dd>
+<dd><a href="https://docs.python.org/3/library/enum.html#module-enum">enum.Enum</a></dd>
+<dd><a href="https://docs.python.org/3/library/builtins.html">builtins.object</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>ATTACK</strong> = &lt;State.ATTACK: 1&gt;</dl>
+
+<dl><dt><strong>DECAY</strong> = &lt;State.DECAY: 2&gt;</dl>
+
+<dl><dt><strong>IDLE</strong> = &lt;State.IDLE: 0&gt;</dl>
+
+<dl><dt><strong>RELEASE</strong> = &lt;State.RELEASE: 4&gt;</dl>
+
+<dl><dt><strong>SUSTAIN</strong> = &lt;State.SUSTAIN: 3&gt;</dl>
+
+<hr>
+Data descriptors inherited from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.Enum</a>:<br>
+<dl><dt><strong>name</strong></dt>
+<dd><span class="code">The&nbsp;name&nbsp;of&nbsp;the&nbsp;Enum&nbsp;member.</span></dd>
+</dl>
+<dl><dt><strong>value</strong></dt>
+<dd><span class="code">The&nbsp;value&nbsp;of&nbsp;the&nbsp;Enum&nbsp;member.</span></dd>
+</dl>
+<hr>
+Methods inherited from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.EnumType</a>:<br>
+<dl><dt><a name="State-__contains__"><strong>__contains__</strong></a>(member)<span class="grey"><span class="heading-text"> from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.EnumType</a></span></span></dt><dd><span class="code">Return&nbsp;True&nbsp;if&nbsp;member&nbsp;is&nbsp;a&nbsp;member&nbsp;of&nbsp;this&nbsp;enum<br>
+raises&nbsp;TypeError&nbsp;if&nbsp;member&nbsp;is&nbsp;not&nbsp;an&nbsp;enum&nbsp;member<br>
+&nbsp;<br>
+note:&nbsp;in&nbsp;3.12&nbsp;TypeError&nbsp;will&nbsp;no&nbsp;longer&nbsp;be&nbsp;raised,&nbsp;and&nbsp;True&nbsp;will&nbsp;also&nbsp;be<br>
+returned&nbsp;if&nbsp;member&nbsp;is&nbsp;the&nbsp;value&nbsp;of&nbsp;a&nbsp;member&nbsp;in&nbsp;this&nbsp;enum</span></dd></dl>
+
+<dl><dt><a name="State-__getitem__"><strong>__getitem__</strong></a>(name)<span class="grey"><span class="heading-text"> from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.EnumType</a></span></span></dt><dd><span class="code">Return&nbsp;the&nbsp;member&nbsp;matching&nbsp;`name`.</span></dd></dl>
+
+<dl><dt><a name="State-__iter__"><strong>__iter__</strong></a>()<span class="grey"><span class="heading-text"> from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.EnumType</a></span></span></dt><dd><span class="code">Return&nbsp;members&nbsp;in&nbsp;definition&nbsp;order.</span></dd></dl>
+
+<dl><dt><a name="State-__len__"><strong>__len__</strong></a>()<span class="grey"><span class="heading-text"> from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.EnumType</a></span></span></dt><dd><span class="code">Return&nbsp;the&nbsp;number&nbsp;of&nbsp;members&nbsp;(no&nbsp;aliases)</span></dd></dl>
+
+<hr>
+Readonly properties inherited from <a href="https://docs.python.org/3/library/enum.html#module-enum">enum.EnumType</a>:<br>
+<dl><dt><strong>__members__</strong></dt>
+<dd><span class="code">Returns&nbsp;a&nbsp;mapping&nbsp;of&nbsp;member&nbsp;name-&gt;value.<br>
+&nbsp;<br>
+This&nbsp;mapping&nbsp;lists&nbsp;all&nbsp;enum&nbsp;members,&nbsp;including&nbsp;aliases.&nbsp;Note&nbsp;that&nbsp;this<br>
+is&nbsp;a&nbsp;read-only&nbsp;view&nbsp;of&nbsp;the&nbsp;internal&nbsp;mapping.</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>DEFAULT_MS</strong> = 0.05<br>
+<strong>__annotations__</strong> = {'DEFAULT_MS': &lt;class 'float'&gt;}</td></tr></table>
+</body></html>

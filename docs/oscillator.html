@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module oscillator</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+
+<td class="extra"><a href="src.html">return to src</a><br></td></tr></table>
+<td class="title">&nbsp;<br><strong class="title">Oscillator Class</strong></td>
+    <p><span class="code">Design&nbsp;idea&nbsp;from:<br>
+<a href="https://python.plainenglish.io/making-a-synth-with-python-oscillators-2cb8e68e9c3b">https://python.plainenglish.io/making-a-synth-with-python-oscillators-2cb8e68e9c3b</a><br>
+&nbsp;<br>
+The&nbsp;provided&nbsp;code&nbsp;defines&nbsp;four&nbsp;different&nbsp;types&nbsp;of&nbsp;oscillators:&nbsp;<a href="#SineOscillator">SineOscillator</a>,&nbsp;<a href="#SquareOscillator">SquareOscillator</a>,&nbsp;<br>
+<a href="#TriangleOscillator">TriangleOscillator</a>,&nbsp;and&nbsp;<a href="#SawtoothOscillator">SawtoothOscillator</a>.&nbsp;Each&nbsp;oscillator&nbsp;generates&nbsp;a&nbsp;specific&nbsp;waveform&nbsp;and&nbsp;<br>
+provides&nbsp;methods&nbsp;for&nbsp;generating&nbsp;and&nbsp;playing&nbsp;audio&nbsp;waves.&nbsp;The&nbsp;<a href="#Oscillator">Oscillator</a>&nbsp;class&nbsp;is&nbsp;an&nbsp;abstract<br>
+base&nbsp;class&nbsp;which&nbsp;each&nbsp;oscillator&nbsp;pulls&nbsp;common&nbsp;functionality&nbsp;from.<br>
+&nbsp;<br>
+Usage<br>
+To&nbsp;use&nbsp;the&nbsp;oscillators&nbsp;in&nbsp;your&nbsp;project,&nbsp;follow&nbsp;these&nbsp;steps:<br>
+&nbsp;<br>
+1.&nbsp;Import&nbsp;the&nbsp;desired&nbsp;oscillator&nbsp;class(es)&nbsp;from&nbsp;the&nbsp;oscillators&nbsp;module.<br>
+2.&nbsp;Create&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;desired&nbsp;oscillator&nbsp;class,&nbsp;optionally&nbsp;specifying&nbsp;custom&nbsp;parameters&nbsp;<br>
+such&nbsp;as&nbsp;frequency,&nbsp;sample&nbsp;rate,&nbsp;amplitude,&nbsp;and&nbsp;duration.<br>
+3.&nbsp;Call&nbsp;the&nbsp;generate_wave()&nbsp;method&nbsp;to&nbsp;generate&nbsp;the&nbsp;audio&nbsp;wave.<br>
+4.&nbsp;Optionally,&nbsp;you&nbsp;can&nbsp;call&nbsp;the&nbsp;play()&nbsp;method&nbsp;to&nbsp;play&nbsp;the&nbsp;generated&nbsp;wave&nbsp;using&nbsp;the&nbsp;default&nbsp;audio&nbsp;output&nbsp;device.<br>
+5.&nbsp;To&nbsp;stop&nbsp;the&nbsp;audio&nbsp;playback,&nbsp;call&nbsp;the&nbsp;stop()&nbsp;method.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="https://numpy.org/doc/stable/">numpy</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text">abc.ABC
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="oscillator.html#Oscillator">Oscillator</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="oscillator.html#SawtoothOscillator">SawtoothOscillator</a>
+</dt><dt class="heading-text"><a href="oscillator.html#SineOscillator">SineOscillator</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="oscillator.html#SquareOscillator">SquareOscillator</a>
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="oscillator.html#TriangleOscillator">TriangleOscillator</a>
+</dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Oscillator">class <strong>Oscillator</strong></a></td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Oscillator">Oscillator</a>(frequency:&nbsp;float&nbsp;=&nbsp;220.0,&nbsp;sample_rate:&nbsp;int&nbsp;=&nbsp;48000,&nbsp;amplitude:&nbsp;float&nbsp;=&nbsp;8191.75,&nbsp;duration:&nbsp;float&nbsp;=&nbsp;1.0)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+<a href="#Oscillator">Oscillator</a>&nbsp;is&nbsp;an&nbsp;abstract&nbsp;base&nbsp;class&nbsp;that&nbsp;implements&nbsp;common&nbsp;functionality&nbsp;for<br>
+concrete&nbsp;oscillator&nbsp;implementations.<br>
+&nbsp;<br>
+Methods:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;__init__:&nbsp;constructor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;generate_wave:&nbsp;abstract&nbsp;method&nbsp;for&nbsp;generating&nbsp;wave<br>
+&nbsp;&nbsp;&nbsp;&nbsp;crop_samples:&nbsp;method&nbsp;for&nbsp;cropping&nbsp;wave<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="oscillator.html#Oscillator">Oscillator</a></dd>
+<dd>abc.ABC</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Oscillator-__init__"><strong>__init__</strong></a>(self, frequency: float = 220.0, sample_rate: int = 48000, amplitude: float = 8191.75, duration: float = 1.0) -&gt; None</dt><dd><span class="code">Initialization&nbsp;for&nbsp;common&nbsp;oscillator&nbsp;properties<br>
+Extend&nbsp;to&nbsp;create&nbsp;a&nbsp;custom&nbsp;oscillator<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;frequency:&nbsp;the&nbsp;frequency&nbsp;of&nbsp;the&nbsp;oscillator&nbsp;(note)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sample_rate:&nbsp;the&nbsp;sample&nbsp;rate&nbsp;(combines&nbsp;with&nbsp;frequency&nbsp;to&nbsp;determine&nbsp;step&nbsp;size)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;amplitude:&nbsp;the&nbsp;amplitude&nbsp;of&nbsp;the&nbsp;oscillator&nbsp;(volume)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;duration:&nbsp;the&nbsp;duration&nbsp;of&nbsp;the&nbsp;oscillator&nbsp;(combines&nbsp;with&nbsp;sample&nbsp;rate&nbsp;to&nbsp;determine&nbsp;time)</span></dd></dl>
+
+<dl><dt><a name="Oscillator-crop_samples"><strong>crop_samples</strong></a>(self, samples: numpy.ndarray) -&gt; numpy.ndarray</dt><dd><span class="code">This&nbsp;function&nbsp;crops&nbsp;the&nbsp;samples&nbsp;to&nbsp;the&nbsp;final&nbsp;zero&nbsp;crossing,<br>
+so&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;wave&nbsp;matches&nbsp;up&nbsp;with&nbsp;the&nbsp;beginning.<br>
+Side&nbsp;effects:&nbsp;final&nbsp;signal&nbsp;is&nbsp;very&nbsp;slightly&nbsp;shorter.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;samples:&nbsp;wave&nbsp;to&nbsp;be&nbsp;trimmed<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;trimmed&nbsp;wave</span></dd></dl>
+
+<dl><dt><a name="Oscillator-generate_wave"><strong>generate_wave</strong></a>(self) -&gt; numpy.ndarray</dt><dd><span class="code">override&nbsp;to&nbsp;generate&nbsp;a&nbsp;wave&nbsp;from&nbsp;the&nbsp;settings&nbsp;established<br>
+upon&nbsp;construction.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SawtoothOscillator">class <strong>SawtoothOscillator</strong></a>(<a href="oscillator.html#Oscillator">Oscillator</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SawtoothOscillator">SawtoothOscillator</a>(frequency:&nbsp;float&nbsp;=&nbsp;440.0,&nbsp;sample_rate:&nbsp;int&nbsp;=&nbsp;48000,&nbsp;amplitude:&nbsp;float&nbsp;=&nbsp;8191.75,&nbsp;duration:&nbsp;float&nbsp;=&nbsp;1.0)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+#&nbsp;SAW&nbsp;TOOTH&nbsp;OSCILLATOR<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="oscillator.html#SawtoothOscillator">SawtoothOscillator</a></dd>
+<dd><a href="oscillator.html#Oscillator">Oscillator</a></dd>
+<dd>abc.ABC</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SawtoothOscillator-__init__"><strong>__init__</strong></a>(self, frequency: float = 440.0, sample_rate: int = 48000, amplitude: float = 8191.75, duration: float = 1.0) -&gt; None</dt><dd><span class="code">Extends&nbsp;<a href="#Oscillator">Oscillator</a>.__init__</span></dd></dl>
+
+<dl><dt><a name="SawtoothOscillator-generate_wave"><strong>generate_wave</strong></a>(self) -&gt; numpy.ndarray</dt><dd><span class="code">Generates&nbsp;a&nbsp;sawtooth&nbsp;wave</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Methods inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><a name="SawtoothOscillator-crop_samples"><strong>crop_samples</strong></a>(self, samples: numpy.ndarray) -&gt; numpy.ndarray</dt><dd><span class="code">This&nbsp;function&nbsp;crops&nbsp;the&nbsp;samples&nbsp;to&nbsp;the&nbsp;final&nbsp;zero&nbsp;crossing,<br>
+so&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;wave&nbsp;matches&nbsp;up&nbsp;with&nbsp;the&nbsp;beginning.<br>
+Side&nbsp;effects:&nbsp;final&nbsp;signal&nbsp;is&nbsp;very&nbsp;slightly&nbsp;shorter.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;samples:&nbsp;wave&nbsp;to&nbsp;be&nbsp;trimmed<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;trimmed&nbsp;wave</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SineOscillator">class <strong>SineOscillator</strong></a>(<a href="oscillator.html#Oscillator">Oscillator</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SineOscillator">SineOscillator</a>(frequency:&nbsp;float&nbsp;=&nbsp;440.0,&nbsp;sample_rate:&nbsp;int&nbsp;=&nbsp;48000,&nbsp;amplitude:&nbsp;float&nbsp;=&nbsp;8191.75,&nbsp;duration:&nbsp;float&nbsp;=&nbsp;1.0)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+#&nbsp;SINE&nbsp;OSCILLATOR<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="oscillator.html#SineOscillator">SineOscillator</a></dd>
+<dd><a href="oscillator.html#Oscillator">Oscillator</a></dd>
+<dd>abc.ABC</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SineOscillator-__init__"><strong>__init__</strong></a>(self, frequency: float = 440.0, sample_rate: int = 48000, amplitude: float = 8191.75, duration: float = 1.0) -&gt; None</dt><dd><span class="code">Extends&nbsp;<a href="#Oscillator">Oscillator</a>.__init__</span></dd></dl>
+
+<dl><dt><a name="SineOscillator-generate_wave"><strong>generate_wave</strong></a>(self) -&gt; numpy.ndarray</dt><dd><span class="code">Generates&nbsp;a&nbsp;sine&nbsp;wave</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Methods inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><a name="SineOscillator-crop_samples"><strong>crop_samples</strong></a>(self, samples: numpy.ndarray) -&gt; numpy.ndarray</dt><dd><span class="code">This&nbsp;function&nbsp;crops&nbsp;the&nbsp;samples&nbsp;to&nbsp;the&nbsp;final&nbsp;zero&nbsp;crossing,<br>
+so&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;wave&nbsp;matches&nbsp;up&nbsp;with&nbsp;the&nbsp;beginning.<br>
+Side&nbsp;effects:&nbsp;final&nbsp;signal&nbsp;is&nbsp;very&nbsp;slightly&nbsp;shorter.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;samples:&nbsp;wave&nbsp;to&nbsp;be&nbsp;trimmed<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;trimmed&nbsp;wave</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SquareOscillator">class <strong>SquareOscillator</strong></a>(<a href="oscillator.html#SineOscillator">SineOscillator</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SquareOscillator">SquareOscillator</a>(frequency:&nbsp;float&nbsp;=&nbsp;440.0,&nbsp;sample_rate:&nbsp;int&nbsp;=&nbsp;48000,&nbsp;amplitude:&nbsp;float&nbsp;=&nbsp;8191.75,&nbsp;duration:&nbsp;float&nbsp;=&nbsp;1.0)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="oscillator.html#SquareOscillator">SquareOscillator</a></dd>
+<dd><a href="oscillator.html#SineOscillator">SineOscillator</a></dd>
+<dd><a href="oscillator.html#Oscillator">Oscillator</a></dd>
+<dd>abc.ABC</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SquareOscillator-__init__"><strong>__init__</strong></a>(self, frequency: float = 440.0, sample_rate: int = 48000, amplitude: float = 8191.75, duration: float = 1.0) -&gt; None</dt><dd><span class="code">Extends&nbsp;<a href="#Oscillator">Oscillator</a>.__init__</span></dd></dl>
+
+<dl><dt><a name="SquareOscillator-generate_wave"><strong>generate_wave</strong></a>(self) -&gt; numpy.ndarray</dt><dd><span class="code">Generates&nbsp;a&nbsp;square&nbsp;wave</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Methods inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><a name="SquareOscillator-crop_samples"><strong>crop_samples</strong></a>(self, samples: numpy.ndarray) -&gt; numpy.ndarray</dt><dd><span class="code">This&nbsp;function&nbsp;crops&nbsp;the&nbsp;samples&nbsp;to&nbsp;the&nbsp;final&nbsp;zero&nbsp;crossing,<br>
+so&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;wave&nbsp;matches&nbsp;up&nbsp;with&nbsp;the&nbsp;beginning.<br>
+Side&nbsp;effects:&nbsp;final&nbsp;signal&nbsp;is&nbsp;very&nbsp;slightly&nbsp;shorter.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;samples:&nbsp;wave&nbsp;to&nbsp;be&nbsp;trimmed<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;trimmed&nbsp;wave</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="TriangleOscillator">class <strong>TriangleOscillator</strong></a>(<a href="oscillator.html#Oscillator">Oscillator</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#TriangleOscillator">TriangleOscillator</a>(frequency:&nbsp;float&nbsp;=&nbsp;440.0,&nbsp;sample_rate:&nbsp;int&nbsp;=&nbsp;48000,&nbsp;amplitude:&nbsp;float&nbsp;=&nbsp;8191.75,&nbsp;duration:&nbsp;float&nbsp;=&nbsp;1.0)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+#&nbsp;TRIANGLE&nbsp;OSCILLATOR<br>
+#&nbsp;Source:&nbsp;<a href="https://stackoverflow.com/questions/1073606/is-there-a-one-line-function-that-generates-a-triangle-wave">https://stackoverflow.com/questions/1073606/is-there-a-one-line-function-that-generates-a-triangle-wave</a><br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="oscillator.html#TriangleOscillator">TriangleOscillator</a></dd>
+<dd><a href="oscillator.html#Oscillator">Oscillator</a></dd>
+<dd>abc.ABC</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="TriangleOscillator-__init__"><strong>__init__</strong></a>(self, frequency: float = 440.0, sample_rate: int = 48000, amplitude: float = 8191.75, duration: float = 1.0) -&gt; None</dt><dd><span class="code">Extends&nbsp;<a href="#Oscillator">Oscillator</a>.__init__</span></dd></dl>
+
+<dl><dt><a name="TriangleOscillator-generate_wave"><strong>generate_wave</strong></a>(self) -&gt; numpy.ndarray</dt><dd><span class="code">Generates&nbsp;a&nbsp;triangle&nbsp;wave</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Methods inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><a name="TriangleOscillator-crop_samples"><strong>crop_samples</strong></a>(self, samples: numpy.ndarray) -&gt; numpy.ndarray</dt><dd><span class="code">This&nbsp;function&nbsp;crops&nbsp;the&nbsp;samples&nbsp;to&nbsp;the&nbsp;final&nbsp;zero&nbsp;crossing,<br>
+so&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;wave&nbsp;matches&nbsp;up&nbsp;with&nbsp;the&nbsp;beginning.<br>
+Side&nbsp;effects:&nbsp;final&nbsp;signal&nbsp;is&nbsp;very&nbsp;slightly&nbsp;shorter.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;samples:&nbsp;wave&nbsp;to&nbsp;be&nbsp;trimmed<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;trimmed&nbsp;wave</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="oscillator.html#Oscillator">Oscillator</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
