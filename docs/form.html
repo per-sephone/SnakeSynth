@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module form</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+
+<tr class="heading-text decor">
+    <td class="extra"><a href="src.html">return to src</a><br></td>
+<td class="title">&nbsp;<br><strong class="title">Form</strong></td>
+</tr>
+    <p><span class="code">Overview<br>
+This&nbsp;code&nbsp;represents&nbsp;a&nbsp;synthesizer&nbsp;GUI&nbsp;application&nbsp;written&nbsp;in&nbsp;Python&nbsp;using&nbsp;the&nbsp;PySide6&nbsp;library.<br>
+The&nbsp;synthesizer&nbsp;UI&nbsp;supports&nbsp;multiple&nbsp;waveforms&nbsp;including&nbsp;sine,&nbsp;square,&nbsp;sawtooth,&nbsp;and&nbsp;triangle&nbsp;waves<br>
+with&nbsp;adjustable&nbsp;parameters&nbsp;attack,&nbsp;decay,&nbsp;sustain,&nbsp;and&nbsp;release&nbsp;(ADSR&nbsp;envelope),&nbsp;volume,&nbsp;pitch,&nbsp;and&nbsp;tone.&nbsp;<br>
+&nbsp;<br>
+Wave&nbsp;Generation<br>
+After&nbsp;defining&nbsp;the&nbsp;constants,&nbsp;the&nbsp;code&nbsp;generates&nbsp;waveforms&nbsp;for&nbsp;each&nbsp;key&nbsp;using&nbsp;different&nbsp;oscillators&nbsp;<br>
+(sine,&nbsp;square,&nbsp;sawtooth,&nbsp;and&nbsp;triangle).&nbsp;These&nbsp;waveforms&nbsp;are&nbsp;stored&nbsp;in&nbsp;dictionaries&nbsp;for&nbsp;easy&nbsp;access.<br>
+&nbsp;<br>
+<a href="#MainWidget">MainWidget</a>&nbsp;Class<br>
+The&nbsp;<a href="#MainWidget">MainWidget</a>&nbsp;class&nbsp;represents&nbsp;the&nbsp;main&nbsp;widget&nbsp;of&nbsp;the&nbsp;synthesizer&nbsp;application.&nbsp;It&nbsp;inherits&nbsp;from&nbsp;<br>
+the&nbsp;<a href="https://doc.qt.io/qt-6/qwidget.html">QWidget</a>&nbsp;class&nbsp;provided&nbsp;by&nbsp;the&nbsp;PySide6&nbsp;library.&nbsp;The&nbsp;class&nbsp;contains&nbsp;methods&nbsp;for&nbsp;handling&nbsp;UI&nbsp;events,&nbsp;<br>
+such&nbsp;as&nbsp;button&nbsp;presses,&nbsp;knob&nbsp;changes,&nbsp;and&nbsp;waveform&nbsp;selection.<br>
+&nbsp;<br>
+ChatGPT&nbsp;was&nbsp;utilized&nbsp;to&nbsp;improve&nbsp;the&nbsp;docstrings&nbsp;in&nbsp;this&nbsp;file.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="https://numpy.org/doc/stable/">numpy</a><br>
+</td><td class="multicolumn"><a href="https://docs.python.org/3/library/os.html">os</a><br>
+</td><td class="multicolumn"><a href="https://www.pygame.org/docs/">pygame</a><br>
+</td><td class="multicolumn"><a href="https://python-sounddevice.readthedocs.io/en/0.4.6/">sounddevice</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="https://doc.qt.io/qt-6/qwidget.html">PySide6.QtWidgets.QWidget</a>
+</dt><dd>
+<dl>
+<dt class="heading-text">MainWidget
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="MainWidget"></td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">&nbsp;<br>
+</span></td></tr>
+<tr>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd>MainWidget</dd>
+<dd><a href="https://doc.qt.io/qt-6/qwidget.html">PySide6.QtWidgets.QWidget</a></dd>
+<dd>PySide6.QtCore.QObject</dd>
+<dd>PySide6.QtGui.QPaintDevice</dd>
+<dd>Shiboken.Object</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MainWidget-MIDI_init"><strong>MIDI_init</strong></a>(self) -&gt; None</dt><dd><span class="code">Initializes&nbsp;the&nbsp;MIDI&nbsp;functionality&nbsp;for&nbsp;the&nbsp;application.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;sets&nbsp;up&nbsp;the&nbsp;MIDI&nbsp;thread,&nbsp;identifying&nbsp;and&nbsp;connecting&nbsp;to&nbsp;the&nbsp;appropriate<br>
+MIDI&nbsp;input&nbsp;device,&nbsp;and&nbsp;starts&nbsp;the&nbsp;thread's&nbsp;execution&nbsp;to&nbsp;enable&nbsp;the&nbsp;application<br>
+to&nbsp;asynchronously&nbsp;receive&nbsp;and&nbsp;process&nbsp;MIDI&nbsp;messages&nbsp;without&nbsp;obstructing&nbsp;the&nbsp;main&nbsp;user&nbsp;interface.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-__init__"><strong>__init__</strong></a>(self) -&gt; None</dt><dd><span class="code">Initializes&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;MainWidget&nbsp;class,&nbsp;inheriting&nbsp;attributes&nbsp;and&nbsp;methods&nbsp;from&nbsp;QWidget.<br>
+&nbsp;<br>
+Attributes:<br>
+-&nbsp;vol_ctrl&nbsp;(Volume):&nbsp;Manages&nbsp;volume&nbsp;control&nbsp;using&nbsp;a&nbsp;Volume&nbsp;instance.<br>
+-&nbsp;adsr_envelope&nbsp;(ADSREnvelope):&nbsp;Handles&nbsp;ADSR&nbsp;(Attack,&nbsp;Decay,&nbsp;Sustain,&nbsp;Release)&nbsp;envelope&nbsp;parameters.<br>
+-&nbsp;win&nbsp;(QWidget):&nbsp;Loads&nbsp;the&nbsp;UI&nbsp;and&nbsp;assigns&nbsp;it&nbsp;to&nbsp;the&nbsp;MainWidget&nbsp;window.<br>
+-&nbsp;threadpool&nbsp;(QThreadPool):&nbsp;Manages&nbsp;threads&nbsp;for&nbsp;concurrent&nbsp;operations.<br>
+-&nbsp;pitch_previous_value&nbsp;(int):&nbsp;Holds&nbsp;the&nbsp;default&nbsp;pitch&nbsp;value.<br>
+-&nbsp;pitch_shifted_keys&nbsp;(list[str]):&nbsp;Stores&nbsp;default&nbsp;key&nbsp;mappings&nbsp;for&nbsp;the&nbsp;GUI.<br>
+-&nbsp;octave_count&nbsp;(int):&nbsp;Defines&nbsp;the&nbsp;number&nbsp;of&nbsp;octaves&nbsp;for&nbsp;key&nbsp;mappings.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-assign_key_handler"><strong>assign_key_handler</strong></a>(self, win) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;identifies&nbsp;all&nbsp;the&nbsp;keys&nbsp;within&nbsp;the&nbsp;GUI&nbsp;and&nbsp;assigns&nbsp;event&nbsp;handlers&nbsp;to&nbsp;manage<br>
+key&nbsp;press&nbsp;and&nbsp;release&nbsp;actions&nbsp;for&nbsp;each&nbsp;individual&nbsp;key.&nbsp;The&nbsp;event&nbsp;handlers&nbsp;enable&nbsp;the<br>
+manipulation&nbsp;of&nbsp;musical&nbsp;notes&nbsp;or&nbsp;actions&nbsp;associated&nbsp;with&nbsp;the&nbsp;specific&nbsp;keys.<br>
+Args:<br>
+win:&nbsp;The&nbsp;UI&nbsp;window&nbsp;object&nbsp;containing&nbsp;the&nbsp;keys&nbsp;for&nbsp;which&nbsp;event&nbsp;handlers&nbsp;are&nbsp;being&nbsp;assigned.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-connect_knob_and_spinbox_values"><strong>connect_knob_and_spinbox_values</strong></a>(self, win) -&gt; None</dt><dd><span class="code">Establishes&nbsp;connections&nbsp;between&nbsp;knob&nbsp;and&nbsp;spinbox&nbsp;values&nbsp;in&nbsp;the&nbsp;GUI.<br>
+&nbsp;<br>
+Args:<br>
+win:&nbsp;The&nbsp;UI&nbsp;window&nbsp;object&nbsp;where&nbsp;knob&nbsp;and&nbsp;spinbox&nbsp;values&nbsp;are&nbsp;to&nbsp;be&nbsp;connected.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;sets&nbsp;up&nbsp;bidirectional&nbsp;connections&nbsp;between&nbsp;knob&nbsp;values&nbsp;and&nbsp;their<br>
+corresponding&nbsp;spinbox&nbsp;values&nbsp;in&nbsp;the&nbsp;GUI.&nbsp;Changes&nbsp;in&nbsp;either&nbsp;the&nbsp;knob&nbsp;or&nbsp;spinbox<br>
+will&nbsp;reflect&nbsp;in&nbsp;both&nbsp;components&nbsp;to&nbsp;maintain&nbsp;synchronization.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_attack_knob_changed"><strong>handle_attack_knob_changed</strong></a>(self, value) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;attack&nbsp;knob&nbsp;value&nbsp;is&nbsp;changed.<br>
+Args:<br>
+value:&nbsp;the&nbsp;number&nbsp;setting&nbsp;for&nbsp;the&nbsp;attack&nbsp;knob</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_attack_spin_box_value_changed"><strong>handle_attack_spin_box_value_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;attack&nbsp;spin&nbsp;box&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_decay_knob_changed"><strong>handle_decay_knob_changed</strong></a>(self, value) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;decay&nbsp;knob&nbsp;value&nbsp;is&nbsp;changed.<br>
+Args:<br>
+value:&nbsp;the&nbsp;number&nbsp;setting&nbsp;for&nbsp;the&nbsp;decay&nbsp;knob</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_decay_spin_box_value_changed"><strong>handle_decay_spin_box_value_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;decay&nbsp;spin&nbsp;box&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_pitch_knob_changed"><strong>handle_pitch_knob_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;pitch&nbsp;knob&nbsp;value&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_pitch_spin_box_value_changed"><strong>handle_pitch_spin_box_value_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;pitch&nbsp;spin&nbsp;box&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_release_knob_changed"><strong>handle_release_knob_changed</strong></a>(self, value) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;release&nbsp;knob&nbsp;value&nbsp;is&nbsp;changed.<br>
+Args:<br>
+value:&nbsp;the&nbsp;number&nbsp;setting&nbsp;for&nbsp;the&nbsp;release&nbsp;knob</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_release_spin_box_value_changed"><strong>handle_release_spin_box_value_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;release&nbsp;spin&nbsp;box&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_sustain_knob_changed"><strong>handle_sustain_knob_changed</strong></a>(self, value) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;sustain&nbsp;knob&nbsp;value&nbsp;is&nbsp;changed.<br>
+Args:<br>
+value:&nbsp;the&nbsp;number&nbsp;setting&nbsp;for&nbsp;the&nbsp;sustain&nbsp;knob</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_sustain_spin_box_value_changed"><strong>handle_sustain_spin_box_value_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;sustain&nbsp;spin&nbsp;box&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_volume_knob_changed"><strong>handle_volume_knob_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;volume&nbsp;knob&nbsp;value&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_volume_spin_box_value_changed"><strong>handle_volume_spin_box_value_changed</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;the&nbsp;volume&nbsp;spin&nbsp;box&nbsp;is&nbsp;changed.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-handle_waveform_selected"><strong>handle_waveform_selected</strong></a>(self, selected_waveform) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;a&nbsp;different&nbsp;waveform&nbsp;is<br>
+selected&nbsp;in&nbsp;the&nbsp;GUI&nbsp;and&nbsp;updates&nbsp;the&nbsp;selected&nbsp;waveform.<br>
+Args:<br>
+selected_waveform:&nbsp;this&nbsp;is&nbsp;the&nbsp;user&nbsp;selected&nbsp;waveform</span></dd></dl>
+
+<dl><dt><a name="MainWidget-key_pressed_handler"><strong>key_pressed_handler</strong></a>(self, key) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;handles&nbsp;when&nbsp;a&nbsp;key&nbsp;is&nbsp;pressed.<br>
+First&nbsp;it&nbsp;maps&nbsp;the&nbsp;named&nbsp;keys&nbsp;in&nbsp;the&nbsp;GUI&nbsp;to&nbsp;the<br>
+correct&nbsp;notes&nbsp;defined&nbsp;by&nbsp;the&nbsp;shift&nbsp;in&nbsp;pitch.<br>
+Once&nbsp;the&nbsp;keys&nbsp;are&nbsp;mapped&nbsp;it&nbsp;updates&nbsp;the&nbsp;ADSR&nbsp;state<br>
+and&nbsp;plays&nbsp;the&nbsp;continous&nbsp;wave&nbsp;on&nbsp;one&nbsp;thread.<br>
+Args:<br>
+win:&nbsp;The&nbsp;UI&nbsp;window&nbsp;object&nbsp;containing&nbsp;the&nbsp;keys&nbsp;for&nbsp;which&nbsp;event&nbsp;handlers&nbsp;are&nbsp;being&nbsp;assigned.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-key_released_handler"><strong>key_released_handler</strong></a>(self) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;updates&nbsp;the&nbsp;ADSR&nbsp;state&nbsp;when&nbsp;a&nbsp;key&nbsp;is&nbsp;released<br>
+to&nbsp;move&nbsp;into&nbsp;the&nbsp;next&nbsp;portion&nbsp;of&nbsp;envelope.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-load_ui"><strong>load_ui</strong></a>(self) -&gt; PySide6.QtWidgets.QWidget</dt><dd><span class="code">Loads&nbsp;the&nbsp;graphical&nbsp;user&nbsp;interface&nbsp;(GUI)&nbsp;window&nbsp;and&nbsp;its&nbsp;elements&nbsp;from&nbsp;a&nbsp;designated&nbsp;UI&nbsp;file.<br>
+Utilizes&nbsp;the&nbsp;QUiLoader&nbsp;to&nbsp;load&nbsp;the&nbsp;UI&nbsp;window&nbsp;and&nbsp;its&nbsp;components&nbsp;from&nbsp;the&nbsp;specified&nbsp;file&nbsp;path.<br>
+Returns&nbsp;the&nbsp;generated&nbsp;GUI&nbsp;window&nbsp;after&nbsp;loading.<br>
+Returns:<br>
+<a href="https://doc.qt.io/qt-6/qwidget.html">QWidget</a>:&nbsp;The&nbsp;generated&nbsp;GUI&nbsp;window&nbsp;populated&nbsp;with&nbsp;elements&nbsp;from&nbsp;the&nbsp;UI&nbsp;file.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-play_loop"><strong>play_loop</strong></a>(self, wav) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;sets&nbsp;up&nbsp;continuous&nbsp;play&nbsp;of&nbsp;the&nbsp;note.<br>
+When&nbsp;a&nbsp;key&nbsp;is&nbsp;pressed,&nbsp;the&nbsp;ADSR&nbsp;envelope&nbsp;is&nbsp;continuously<br>
+applied&nbsp;to&nbsp;the&nbsp;wave&nbsp;passed&nbsp;in.&nbsp;Then&nbsp;volume&nbsp;is&nbsp;appled&nbsp;and<br>
+the&nbsp;wave&nbsp;is&nbsp;output&nbsp;continously&nbsp;so&nbsp;there&nbsp;is&nbsp;no&nbsp;break&nbsp;in<br>
+the&nbsp;output&nbsp;wave.<br>
+Args:<br>
+wav:&nbsp;the&nbsp;wave&nbsp;sent&nbsp;in&nbsp;to&nbsp;be&nbsp;looped</span></dd></dl>
+
+<dl><dt><a name="MainWidget-set_default_values"><strong>set_default_values</strong></a>(self, win) -&gt; None</dt><dd><span class="code">Sets&nbsp;the&nbsp;default&nbsp;values&nbsp;for&nbsp;each&nbsp;knob&nbsp;on&nbsp;the&nbsp;UI:<br>
+(Attack,&nbsp;Decay,&nbsp;Sustain,&nbsp;Release,&nbsp;Volume,&nbsp;Pitch)<br>
+Sets&nbsp;the&nbsp;default&nbsp;wave&nbsp;selection<br>
+Args:<br>
+win:&nbsp;The&nbsp;UI&nbsp;window&nbsp;object&nbsp;where&nbsp;default&nbsp;values&nbsp;are&nbsp;to&nbsp;be&nbsp;set.</span></dd></dl>
+
+<dl><dt><a name="MainWidget-wave_selection"><strong>wave_selection</strong></a>(self, win) -&gt; None</dt><dd><span class="code">This&nbsp;function&nbsp;sets&nbsp;up&nbsp;connections&nbsp;between&nbsp;the&nbsp;different&nbsp;waveform&nbsp;selection&nbsp;buttons<br>
+on&nbsp;the&nbsp;GUI&nbsp;and&nbsp;the&nbsp;corresponding&nbsp;handler&nbsp;method&nbsp;for&nbsp;selecting&nbsp;different&nbsp;waveforms.<br>
+When&nbsp;a&nbsp;waveform&nbsp;button&nbsp;is&nbsp;clicked,&nbsp;the&nbsp;associated&nbsp;method&nbsp;for&nbsp;waveform&nbsp;selection&nbsp;is&nbsp;triggered.<br>
+Args:<br>
+win:&nbsp;The&nbsp;UI&nbsp;window&nbsp;object&nbsp;providing&nbsp;the&nbsp;waveform&nbsp;selection&nbsp;controls.</span></dd></dl>
+
+<hr>
+<br><br>
+
+
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+<td class="singlecolumn"><strong>DEFAULT_ATTACK</strong> = 2<br>
+<strong>DEFAULT_DECAY</strong> = 7<br>
+<strong>DEFAULT_DURATION</strong> = 0.2<br>
+<strong>DEFAULT_PITCH</strong> = 3<br>
+<strong>DEFAULT_RELEASE</strong> = 3<br>
+<strong>DEFAULT_SUSTAIN</strong> = 8<br>
+<strong>DEFAULT_VOLUME</strong> = 9<br>
+<strong>DEFAULT_VOLUME_OFFSET</strong> = 9<br>
+<strong>GUI_KEYS</strong> = ['C0', 'C#0', 'D0', 'D#0', 'E0', 'F0', 'F#0', 'G0', 'G#0', 'A0', 'A#0', 'B0', 'C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', ...]<br>
+<strong>MAX_AMPLITUDE</strong> = 8192<br>
+<strong>NOTE_FREQS</strong> = {'A#0': 29.14, 'A#1': 58.27, 'A#10': 29834.48, 'A#11': 59668.96, 'A#12': 119337.92, 'A#2': 116.54, 'A#3': 233.08, 'A#4': 466.16, 'A#5': 932.33, 'A#6': 1864.66, ...}<br>
+<strong>SAMPLE_RATE</strong> = 48000<br>
+<strong>__annotations__</strong> = {'DEFAULT_ATTACK': &lt;class 'int'&gt;, 'DEFAULT_DECAY': &lt;class 'int'&gt;, 'DEFAULT_DURATION': &lt;class 'float'&gt;, 'DEFAULT_PITCH': &lt;class 'int'&gt;, 'DEFAULT_RELEASE': &lt;class 'int'&gt;, 'DEFAULT_SUSTAIN': &lt;class 'int'&gt;, 'DEFAULT_VOLUME': &lt;class 'int'&gt;, 'DEFAULT_VOLUME_OFFSET': &lt;class 'int'&gt;, 'GUI_KEYS': list[str], 'MAX_AMPLITUDE': &lt;class 'int'&gt;, ...}<br>
+<strong>key</strong> = 'A#12'<br>
+<strong>saw_waves</strong> = {'A#0': array([  0,   9,  19, ..., -30, -20, -10], dtype=int16), 'A#1': array([  0,  19,  39, ..., -64, -45, -25], dtype=int16), 'A#10': array([    0, -6200,  3983, ...,  6714,   513, -5686], dtype=int16), 'A#11': array([    0,  3983,  7966, ..., -2955,  1027,  5010], dtype=int16), 'A#12': array([    0,  7966,  -451, ...,  2054, -6363,  1602], dtype=int16), 'A#2': array([   0,   39,   79, ..., -124,  -85,  -45], dtype=int16), 'A#3': array([   0,   79,  159, ..., -249, -170,  -90], dtype=int16), 'A#4': array([   0,  159,  318, ..., -495, -335, -176], dtype=int16), 'A#5': array([   0,  318,  636, ..., -957, -639, -320], dtype=int16), 'A#6': array([    0,   636,  1272, ..., -1914, -1278,  -641], dtype=int16), ...}<br>
+<strong>sine_waves</strong> = {'A#0': array([  0,  31,  62, ..., -96, -65, -34], dtype=int16), 'A#1': array([   0,   62,  124, ..., -204, -141,  -79], dtype=int16), 'A#10': array([    0, -5665,  8184, ...,  4398,  1602, -6714], dtype=int16), 'A#11': array([    0,  8184,   709, ..., -7421,  3143,  7693], dtype=int16), 'A#12': array([    0,   709, -1412, ...,  5806, -5284,  4722], dtype=int16), 'A#2': array([   0,  124,  249, ..., -392, -267, -142], dtype=int16), 'A#3': array([   0,  249,  499, ..., -784, -535, -285], dtype=int16), 'A#4': array([    0,   499,   997, ..., -1545, -1052,  -555], dtype=int16), 'A#5': array([    0,   997,  1979, ..., -2940, -1987, -1005], dtype=int16), 'A#6': array([    0,  1979,  3842, ..., -5489, -3857, -1996], dtype=int16), ...}<br>
+<strong>square_waves</strong> = {'A#0': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), 'A#1': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), 'A#10': array([ 8192, -8192,  8192, ...,  8192,  8192, -8192], dtype=int16), 'A#11': array([ 8192,  8192,  8192, ..., -8192,  8192,  8192], dtype=int16), 'A#12': array([ 8192,  8192, -8192, ...,  8192, -8192,  8192], dtype=int16), 'A#2': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), 'A#3': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), 'A#4': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), 'A#5': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), 'A#6': array([ 8192,  8192,  8192, ..., -8192, -8192, -8192], dtype=int16), ...}<br>
+<strong>triangle_waves</strong> = {'A#0': array([  0,  19,  39, ..., -61, -41, -21], dtype=int16), 'A#1': array([   0,   39,   79, ..., -129,  -90,  -50], dtype=int16), 'A#10': array([    0, -3983,  7966, ...,  2955,  1027, -5010], dtype=int16), 'A#11': array([    0,  7966,   451, ..., -5911,  2054,  6363], dtype=int16), 'A#12': array([    0,   451,  -903, ...,  4108, -3656,  3204], dtype=int16), 'A#2': array([   0,   79,  159, ..., -249, -170,  -90], dtype=int16), 'A#3': array([   0,  159,  318, ..., -499, -340, -181], dtype=int16), 'A#4': array([   0,  318,  636, ..., -990, -671, -353], dtype=int16), 'A#5': array([    0,   636,  1272, ..., -1914, -1278,  -641], dtype=int16), 'A#6': array([    0,  1272,  2545, ..., -3829, -2556, -1283], dtype=int16), ...}</td></tr></table>
+</body></html>

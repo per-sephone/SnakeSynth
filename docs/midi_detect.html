@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module midi_detect</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+    <td class="extra"><a href="src.html">return to src</a><br></td>
+
+</tr></table>
+<td class="title"><br><strong class="title">midi_detect</strong></td>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="https://www.pygame.org/docs/">pygame</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-identify_device"><strong>identify_device</strong></a>() -&gt; pygame.midi.Input | None</dt><dd><span class="code">Initializes&nbsp;and&nbsp;identifies&nbsp;a&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;using&nbsp;the&nbsp;Pygame&nbsp;MIDI&nbsp;module.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;serves&nbsp;as&nbsp;the&nbsp;entry&nbsp;point&nbsp;for&nbsp;setting&nbsp;up&nbsp;and&nbsp;identifying&nbsp;a&nbsp;MIDI&nbsp;input&nbsp;device.<br>
+It&nbsp;performs&nbsp;the&nbsp;following&nbsp;steps:<br>
+1.&nbsp;Initializes&nbsp;the&nbsp;Pygame&nbsp;MIDI&nbsp;module.<br>
+2.&nbsp;Retrieves&nbsp;the&nbsp;number&nbsp;of&nbsp;available&nbsp;MIDI&nbsp;devices&nbsp;using&nbsp;pygame.midi.get_count().<br>
+3.&nbsp;If&nbsp;no&nbsp;MIDI&nbsp;input&nbsp;devices&nbsp;are&nbsp;detected,&nbsp;it&nbsp;prints&nbsp;a&nbsp;message,&nbsp;quits&nbsp;the&nbsp;Pygame&nbsp;MIDI&nbsp;module,&nbsp;and&nbsp;returns&nbsp;None.<br>
+4.&nbsp;If&nbsp;MIDI&nbsp;devices&nbsp;are&nbsp;found,&nbsp;it&nbsp;proceeds&nbsp;to&nbsp;the&nbsp;select_device&nbsp;function&nbsp;to&nbsp;choose&nbsp;and&nbsp;configure&nbsp;a&nbsp;specific&nbsp;device.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pygame.midi.Input&nbsp;|&nbsp;None:&nbsp;An&nbsp;instance&nbsp;of&nbsp;the&nbsp;selected&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;or&nbsp;None&nbsp;if&nbsp;no&nbsp;devices&nbsp;are&nbsp;available.</span></dd></dl>
+ <dl><dt><a name="-receive_input"><strong>receive_input</strong></a>(midi_input_device)</dt><dd><span class="code">This&nbsp;function&nbsp;continuously&nbsp;receives&nbsp;and&nbsp;processes&nbsp;MIDI&nbsp;input&nbsp;from&nbsp;a&nbsp;specified&nbsp;MIDI&nbsp;input&nbsp;device.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;midi_input_device&nbsp;(pygame.midi.Input):&nbsp;The&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;to&nbsp;receive&nbsp;input&nbsp;from.<br>
+&nbsp;<br>
+Yields:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;A&nbsp;dictionary&nbsp;containing&nbsp;the&nbsp;extracted&nbsp;MIDI&nbsp;data&nbsp;for&nbsp;each&nbsp;received&nbsp;MIDI&nbsp;event.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each&nbsp;dictionary&nbsp;includes&nbsp;the&nbsp;following&nbsp;keys:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;'status':&nbsp;The&nbsp;status&nbsp;byte&nbsp;of&nbsp;the&nbsp;MIDI&nbsp;event.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;'note':&nbsp;The&nbsp;note&nbsp;value&nbsp;associated&nbsp;with&nbsp;the&nbsp;MIDI&nbsp;event.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;'velocity':&nbsp;The&nbsp;velocity&nbsp;or&nbsp;intensity&nbsp;of&nbsp;the&nbsp;MIDI&nbsp;event.<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RuntimeError:&nbsp;If&nbsp;`pygame.midi`&nbsp;is&nbsp;not&nbsp;initialized,&nbsp;indicating&nbsp;that&nbsp;the&nbsp;MIDI&nbsp;subsystem<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;has&nbsp;not&nbsp;been&nbsp;properly&nbsp;set&nbsp;up.<br>
+&nbsp;<br>
+The&nbsp;function&nbsp;continuously&nbsp;listens&nbsp;for&nbsp;MIDI&nbsp;input&nbsp;from&nbsp;the&nbsp;specified&nbsp;`midi_input_device`.<br>
+It&nbsp;extracts&nbsp;and&nbsp;processes&nbsp;MIDI&nbsp;messages&nbsp;as&nbsp;they&nbsp;arrive,&nbsp;yielding&nbsp;dictionaries<br>
+containing&nbsp;the&nbsp;individual&nbsp;components&nbsp;of&nbsp;each&nbsp;MIDI&nbsp;event.<br>
+&nbsp;<br>
+The&nbsp;function&nbsp;is&nbsp;designed&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;a&nbsp;loop,&nbsp;and&nbsp;it&nbsp;will&nbsp;keep&nbsp;running&nbsp;until<br>
+stopped&nbsp;externally,&nbsp;making&nbsp;it&nbsp;suitable&nbsp;for&nbsp;real-time&nbsp;MIDI&nbsp;input&nbsp;processing.<br>
+&nbsp;<br>
+Note:&nbsp;Make&nbsp;sure&nbsp;to&nbsp;initialize&nbsp;the&nbsp;`pygame.midi`&nbsp;subsystem&nbsp;before&nbsp;calling&nbsp;this&nbsp;function.</span></dd></dl>
+ <dl><dt><a name="-select_device"><strong>select_device</strong></a>(device_count) -&gt; pygame.midi.Input | None</dt><dd><span class="code">Selects&nbsp;a&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;by&nbsp;its&nbsp;ID&nbsp;from&nbsp;the&nbsp;available&nbsp;options.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;prints&nbsp;information&nbsp;about&nbsp;the&nbsp;available&nbsp;MIDI&nbsp;input&nbsp;devices,&nbsp;including&nbsp;their&nbsp;IDs&nbsp;and&nbsp;names.<br>
+It&nbsp;allows&nbsp;you&nbsp;to&nbsp;select&nbsp;a&nbsp;specific&nbsp;MIDI&nbsp;device&nbsp;by&nbsp;providing&nbsp;its&nbsp;ID.&nbsp;If&nbsp;the&nbsp;selected&nbsp;device&nbsp;number&nbsp;is&nbsp;invalid,<br>
+it&nbsp;handles&nbsp;the&nbsp;error&nbsp;gracefully&nbsp;and&nbsp;returns&nbsp;None.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;device_count&nbsp;(int):&nbsp;The&nbsp;number&nbsp;of&nbsp;available&nbsp;MIDI&nbsp;input&nbsp;devices.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pygame.midi.Input&nbsp;|&nbsp;None:&nbsp;An&nbsp;instance&nbsp;of&nbsp;the&nbsp;selected&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;or&nbsp;None&nbsp;if&nbsp;the&nbsp;selection&nbsp;is&nbsp;invalid.<br>
+&nbsp;<br>
+Note:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Before&nbsp;using&nbsp;this&nbsp;function,&nbsp;ensure&nbsp;that&nbsp;you've&nbsp;initialized&nbsp;the&nbsp;Pygame&nbsp;MIDI&nbsp;module.</span></dd></dl>
+</td></tr></table>
+</body></html>
