@@ -226,31 +226,31 @@ class MainWidget(QWidget):
         will reflect in both components to maintain synchronization.
         """
         # Connecting knob values to its corresponding spin box values
-        win.attack_knob.valueChanged.connect(self.handle_attack_knob_changed)
-        win.decay_knob.valueChanged.connect(self.handle_decay_knob_changed)
-        win.sustain_knob.valueChanged.connect(self.handle_sustain_knob_changed)
-        win.release_knob.valueChanged.connect(self.handle_release_knob_changed)
-        win.pitch_knob.valueChanged.connect(self.handle_pitch_knob_changed)
-        win.volume_knob.valueChanged.connect(self.handle_volume_knob_changed)
+        win.attack_knob.valueChanged.connect(lambda v: self.handle_knob_value_changed("attack", v))
+        win.decay_knob.valueChanged.connect(lambda v: self.handle_knob_value_changed("decay", v))
+        win.sustain_knob.valueChanged.connect(lambda v: self.handle_knob_value_changed("sustain", v))
+        win.release_knob.valueChanged.connect(lambda v: self.handle_knob_value_changed("release", v))
+        win.pitch_knob.valueChanged.connect(lambda v: self.handle_knob_value_changed("pitch", v))
+        win.volume_knob.valueChanged.connect(lambda v: self.handle_knob_value_changed("volume", v))
 
         # Connecting spin box values to its corresponding knob values
         win.attack_double_spin_box.valueChanged.connect(
-            self.handle_attack_spin_box_value_changed
+            lambda: self.handle_spin_box_value_changed("attack")
         )
         win.decay_double_spin_box.valueChanged.connect(
-            self.handle_decay_spin_box_value_changed
+            lambda: self.handle_spin_box_value_changed("decay")
         )
         win.sustain_double_spin_box.valueChanged.connect(
-            self.handle_sustain_spin_box_value_changed
+            lambda: self.handle_spin_box_value_changed("sustain")
         )
         win.release_double_spin_box.valueChanged.connect(
-            self.handle_release_spin_box_value_changed
+            lambda: self.handle_spin_box_value_changed("release")
         )
         win.pitch_double_spin_box.valueChanged.connect(
-            self.handle_pitch_spin_box_value_changed
+            lambda: self.handle_spin_box_value_changed("pitch")
         )
         win.volume_double_spin_box.valueChanged.connect(
-            self.handle_volume_spin_box_value_changed
+            lambda: self.handle_spin_box_value_changed("volume")
         )
 
     def wave_selection(self, win) -> None:
@@ -354,46 +354,6 @@ class MainWidget(QWidget):
         elif selected_waveform == "triangle":
             selected_waves = triangle_waves
 
-    def handle_attack_knob_changed(self, value) -> None:
-        """
-        This function handles when the attack knob value is changed.
-        Args:
-        value: the number setting for the attack knob
-        """
-        # Update Attack spin box
-        self.win.attack_double_spin_box.setValue(self.win.attack_knob.value())
-        self.adsr_envelope.update_attack(value)
-
-    def handle_decay_knob_changed(self, value) -> None:
-        """
-        This function handles when the decay knob value is changed.
-        Args:
-        value: the number setting for the decay knob
-        """
-        # Update Decay spin box
-        self.win.decay_double_spin_box.setValue(self.win.decay_knob.value())
-        self.adsr_envelope.update_decay(value)
-
-    def handle_sustain_knob_changed(self, value) -> None:
-        """
-        This function handles when the sustain knob value is changed.
-        Args:
-        value: the number setting for the sustain knob
-        """
-        # Update Sustain spin box
-        self.win.sustain_double_spin_box.setValue(self.win.sustain_knob.value())
-        self.adsr_envelope.update_sustain(value)
-
-    def handle_release_knob_changed(self, value) -> None:
-        """
-        This function handles when the release knob value is changed.
-        Args:
-        value: the number setting for the release knob
-        """
-        # Update Release spin box
-        self.win.release_double_spin_box.setValue(self.win.release_knob.value())
-        self.adsr_envelope.update_release(value)
-
     def handle_pitch_knob_changed(self) -> None:
         """
         This function handles when the pitch knob value is changed.
@@ -432,44 +392,60 @@ class MainWidget(QWidget):
         self.win.volume_double_spin_box.setValue(knob_value)
         self.vol_ctrl.config(knob_value)
 
-    def handle_attack_spin_box_value_changed(self) -> None:
+    def handle_knob_value_changed(self, spin_box: str, value: float) -> None:
         """
-        This function handles when the attack spin box is changed.
+        This function handles synchronizing the values between spin box
+        and a knob when the knob value changes.
         """
-        # Update Attack knob
-        self.win.attack_knob.setValue(self.win.attack_double_spin_box.value())
+        match spin_box:
+            case "attack":
+                self.win.attack_double_spin_box.setValue(self.win.attack_knob.value())
+                self.adsr_envelope.update_attack(value) 
+                return
+            case "decay":
+                self.win.decay_double_spin_box.setValue(self.win.decay_knob.value())
+                self.adsr_envelope.update_decay(value)
+                return
+            case "sustain":
+                self.win.sustain_double_spin_box.setValue(self.win.sustain_knob.value())
+                self.adsr_envelope.update_sustain(value)
+                return
+            case "release":
+                self.win.release_double_spin_box.setValue(self.win.release_knob.value())
+                self.adsr_envelope.update_release(value)
+                return
+            case "pitch":
+                self.handle_pitch_knob_changed()
+                return
+            case "volume":
+                self.handle_volume_knob_changed()
+                return
+            case _:
+                raise "spin box not found for: " + spin_box
 
-    def handle_decay_spin_box_value_changed(self) -> None:
+    def handle_spin_box_value_changed(self, knob: str) -> None:
         """
-        This function handles when the decay spin box is changed.
+        This function handles synchronizing the values between a spin box
+        and a knob when the spin box value changes.
         """
-        # Update decay knob
-        self.win.decay_knob.setValue(self.win.decay_double_spin_box.value())
-
-    def handle_sustain_spin_box_value_changed(self) -> None:
-        """
-        This function handles when the sustain spin box is changed.
-        """
-        # Update sustain knob
-        self.win.sustain_knob.setValue(self.win.sustain_double_spin_box.value())
-
-    def handle_release_spin_box_value_changed(self) -> None:
-        """
-        This function handles when the release spin box is changed.
-        """
-        # Update release knob
-        self.win.release_knob.setValue(self.win.release_double_spin_box.value())
-
-    def handle_pitch_spin_box_value_changed(self) -> None:
-        """
-        This function handles when the pitch spin box is changed.
-        """
-        # Update pitch knob
-        self.win.pitch_knob.setValue(self.win.pitch_double_spin_box.value())
-
-    def handle_volume_spin_box_value_changed(self) -> None:
-        """
-        This function handles when the volume spin box is changed.
-        """
-        # Update volume knob
-        self.win.volume_knob.setValue(self.win.volume_double_spin_box.value())
+        match knob:
+            case "attack":
+                self.win.attack_knob.setValue(self.win.attack_double_spin_box.value())
+                return
+            case "decay":
+                self.win.decay_knob.setValue(self.win.decay_double_spin_box.value())
+                return
+            case "sustain":
+                self.win.sustain_knob.setValue(self.win.sustain_double_spin_box.value())
+                return
+            case "release":
+                self.win.release_knob.setValue(self.win.release_double_spin_box.value())
+                return
+            case "pitch":
+                self.win.pitch_knob.setValue(self.win.pitch_double_spin_box.value())
+                return
+            case "volume":
+                self.win.volume_knob.setValue(self.win.volume_double_spin_box.value())
+                return
+            case _:
+                raise "knob not found for: " + knob
