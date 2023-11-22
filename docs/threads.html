@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module threads</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+
+<td class="extra"><a href="src.html">return to src</a><br></td></tr></table>
+<td class="title">&nbsp;<br><strong class="title">Threads Classes</strong></td>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="https://www.pygame.org/docs/">pygame</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="https://doc.qt.io/qtforpython-5/PySide2/QtCore/QObject.html">PySide6.QtCore.QObject</a>(Shiboken.Object)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="threads.html#MidiWorker">MidiWorker</a>
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="https://doc.qt.io/qt-6/qrunnable.html">PySide6.QtCore.QRunnable</a>(Shiboken.Object)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="threads.html#MidiInputWorker">MidiInputWorker</a>
+</dt><dt class="heading-text"><a href="threads.html#Worker">Worker</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="MidiInputWorker">class <strong>MidiInputWorker</strong></a>(PySide6.QtCore.QRunnable)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#MidiInputWorker">MidiInputWorker</a>(input_device,&nbsp;main_widget)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+The&nbsp;<a href="#MidiInputWorker">MidiInputWorker</a>&nbsp;class&nbsp;is&nbsp;part&nbsp;of&nbsp;a&nbsp;synthesizer&nbsp;GUI&nbsp;application&nbsp;written&nbsp;in&nbsp;Python&nbsp;using&nbsp;the&nbsp;PySide6&nbsp;library.<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;is&nbsp;responsible&nbsp;for&nbsp;handling&nbsp;MIDI&nbsp;input&nbsp;messages&nbsp;and&nbsp;connecting&nbsp;them&nbsp;to&nbsp;the&nbsp;generation&nbsp;of&nbsp;tones&nbsp;in&nbsp;the<br>
+synthesizer.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_device:&nbsp;The&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;used&nbsp;to&nbsp;receive&nbsp;MIDI&nbsp;messages.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main_widget:&nbsp;The&nbsp;main&nbsp;widget&nbsp;of&nbsp;the&nbsp;synthesizer&nbsp;GUI&nbsp;application.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="threads.html#MidiInputWorker">MidiInputWorker</a></dd>
+<dd>PySide6.QtCore.QRunnable</dd>
+<dd>Shiboken.Object</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MidiInputWorker-__init__"><strong>__init__</strong></a>(self, input_device, main_widget) -&gt; None</dt><dd><span class="code">Initialize&nbsp;a&nbsp;<a href="#MidiInputWorker">MidiInputWorker</a>&nbsp;instance.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_device:&nbsp;The&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;used&nbsp;to&nbsp;receive&nbsp;MIDI&nbsp;messages.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main_widget:&nbsp;The&nbsp;main&nbsp;widget&nbsp;of&nbsp;the&nbsp;synthesizer&nbsp;GUI&nbsp;application.</span></dd></dl>
+
+<dl><dt><a name="MidiInputWorker-run"><strong>run</strong></a>(self) -&gt; None</dt><dd><span class="code">Run&nbsp;the&nbsp;MIDI&nbsp;input&nbsp;processing&nbsp;loop.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;continuously&nbsp;processes&nbsp;incoming&nbsp;MIDI&nbsp;messages,&nbsp;specifically&nbsp;note-on&nbsp;and&nbsp;note-off&nbsp;messages.<br>
+When&nbsp;a&nbsp;note-on&nbsp;message&nbsp;is&nbsp;received,&nbsp;it&nbsp;triggers&nbsp;the&nbsp;generation&nbsp;of&nbsp;a&nbsp;tone&nbsp;in&nbsp;the&nbsp;synthesizer&nbsp;based&nbsp;on&nbsp;the<br>
+note&nbsp;value.&nbsp;When&nbsp;a&nbsp;note-off&nbsp;message&nbsp;is&nbsp;received,&nbsp;it&nbsp;releases&nbsp;the&nbsp;previously&nbsp;played&nbsp;tone.</span></dd></dl>
+
+
+<hr>
+
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="MidiWorker">class <strong>MidiWorker</strong></a>(PySide6.QtCore.QObject)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#MidiWorker">MidiWorker</a>(input_device)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+The&nbsp;<a href="#MidiWorker">MidiWorker</a>&nbsp;class&nbsp;manages&nbsp;MIDI&nbsp;input&nbsp;functionality&nbsp;in&nbsp;a&nbsp;separate&nbsp;thread.<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;is&nbsp;responsible&nbsp;for&nbsp;initializing&nbsp;the&nbsp;MIDI&nbsp;system&nbsp;using&nbsp;`pygame.midi.init()`&nbsp;and&nbsp;defining&nbsp;a&nbsp;signal&nbsp;named<br>
+`start_midi_thread`.&nbsp;It&nbsp;is&nbsp;designed&nbsp;to&nbsp;work&nbsp;with&nbsp;the&nbsp;`<a href="#MidiInputWorker">MidiInputWorker</a>`&nbsp;class&nbsp;to&nbsp;receive&nbsp;and&nbsp;process&nbsp;MIDI&nbsp;messages<br>
+concurrently&nbsp;without&nbsp;blocking&nbsp;the&nbsp;main&nbsp;user&nbsp;interface.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;signal&nbsp;(Signal):&nbsp;A&nbsp;signal&nbsp;used&nbsp;to&nbsp;trigger&nbsp;the&nbsp;MIDI&nbsp;processing&nbsp;thread.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_device:&nbsp;The&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;MIDI&nbsp;message&nbsp;reception.<br>
+&nbsp;<br>
+Note:<br>
+Ensure&nbsp;that&nbsp;you&nbsp;have&nbsp;properly&nbsp;initialized&nbsp;the&nbsp;Pygame&nbsp;MIDI&nbsp;system&nbsp;before&nbsp;using&nbsp;this&nbsp;class.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="threads.html#MidiWorker">MidiWorker</a></dd>
+<dd>PySide6.QtCore.QObject</dd>
+<dd>Shiboken.Object</dd>
+<dd>builtins.object</dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MidiWorker-__init__"><strong>__init__</strong></a>(self, input_device) -&gt; None</dt><dd><span class="code">Initialize&nbsp;a&nbsp;<a href="#MidiWorker">MidiWorker</a>&nbsp;instance.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_device:&nbsp;The&nbsp;MIDI&nbsp;input&nbsp;device&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;MIDI&nbsp;message&nbsp;reception.</span></dd></dl>
+
+<strong>signal</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="MidiWorker-start"><strong>start</strong></a>(self) -&gt; None</dt><dd><span class="code">Start&nbsp;the&nbsp;MIDI&nbsp;processing&nbsp;thread&nbsp;by&nbsp;emitting&nbsp;the&nbsp;`start_midi_thread`&nbsp;signal.</span></dd></dl>
+
+
+ 
+Class methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="MidiWorker-tr"><strong>tr</strong></a>(...)<span class="grey"><span class="heading-text"> from Shiboken.ObjectType</span></span></dt><dd><span class="code"><a href="#MidiWorker-tr">tr</a>(self,&nbsp;sourceText:&nbsp;str,&nbsp;disambiguation:&nbsp;Optional[str],&nbsp;n:&nbsp;int&nbsp;=&nbsp;-1)&nbsp;-&gt;&nbsp;str</span></dd></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="MidiWorker-__new__"><strong>__new__</strong></a>(*args, **kwargs)<span class="grey"><span class="heading-text"> from Shiboken.ObjectType</span></span></dt><dd><span class="code">Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="MidiWorker-connect"><strong>connect</strong></a>(...)</dt><dd><span class="code"><a href="#MidiWorker-connect">connect</a>(arg__1:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;arg__2:&nbsp;bytes,&nbsp;arg__3:&nbsp;Callable,&nbsp;type:&nbsp;PySide6.QtCore.Qt.ConnectionType&nbsp;=&nbsp;Instance(Qt.AutoConnection))&nbsp;-&gt;&nbsp;PySide6.QtCore.QMetaObject.Connection<br>
+<a href="#MidiWorker-connect">connect</a>(self,&nbsp;arg__1:&nbsp;bytes,&nbsp;arg__2:&nbsp;Callable,&nbsp;type:&nbsp;PySide6.QtCore.Qt.ConnectionType&nbsp;=&nbsp;Instance(Qt.AutoConnection))&nbsp;-&gt;&nbsp;PySide6.QtCore.QMetaObject.Connection<br>
+<a href="#MidiWorker-connect">connect</a>(self,&nbsp;arg__1:&nbsp;bytes,&nbsp;arg__2:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;arg__3:&nbsp;bytes,&nbsp;type:&nbsp;PySide6.QtCore.Qt.ConnectionType&nbsp;=&nbsp;Instance(Qt.AutoConnection))&nbsp;-&gt;&nbsp;PySide6.QtCore.QMetaObject.Connection<br>
+<a href="#MidiWorker-connect">connect</a>(self,&nbsp;sender:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;signal:&nbsp;bytes,&nbsp;member:&nbsp;bytes,&nbsp;type:&nbsp;PySide6.QtCore.Qt.ConnectionType&nbsp;=&nbsp;Instance(Qt.AutoConnection))&nbsp;-&gt;&nbsp;PySide6.QtCore.QMetaObject.Connection<br>
+<a href="#MidiWorker-connect">connect</a>(sender:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;signal:&nbsp;PySide6.QtCore.QMetaMethod,&nbsp;receiver:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;method:&nbsp;PySide6.QtCore.QMetaMethod,&nbsp;type:&nbsp;PySide6.QtCore.Qt.ConnectionType&nbsp;=&nbsp;Instance(Qt.AutoConnection))&nbsp;-&gt;&nbsp;PySide6.QtCore.QMetaObject.Connection<br>
+<a href="#MidiWorker-connect">connect</a>(sender:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;signal:&nbsp;bytes,&nbsp;receiver:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;member:&nbsp;bytes,&nbsp;type:&nbsp;PySide6.QtCore.Qt.ConnectionType&nbsp;=&nbsp;Instance(Qt.AutoConnection))&nbsp;-&gt;&nbsp;PySide6.QtCore.QMetaObject.Connection</span></dd></dl>
+
+<dl><dt><a name="MidiWorker-disconnect"><strong>disconnect</strong></a>(...)</dt><dd><span class="code"><a href="#MidiWorker-disconnect">disconnect</a>(arg__1:&nbsp;PySide6.QtCore.QMetaObject.Connection)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#MidiWorker-disconnect">disconnect</a>(arg__1:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;arg__2:&nbsp;bytes,&nbsp;arg__3:&nbsp;Callable)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#MidiWorker-disconnect">disconnect</a>(self,&nbsp;arg__1:&nbsp;bytes,&nbsp;arg__2:&nbsp;Callable)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#MidiWorker-disconnect">disconnect</a>(self,&nbsp;receiver:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;member:&nbsp;Optional[bytes]&nbsp;=&nbsp;None)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#MidiWorker-disconnect">disconnect</a>(self,&nbsp;signal:&nbsp;bytes,&nbsp;receiver:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;member:&nbsp;bytes)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#MidiWorker-disconnect">disconnect</a>(sender:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;signal:&nbsp;PySide6.QtCore.QMetaMethod,&nbsp;receiver:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;member:&nbsp;PySide6.QtCore.QMetaMethod)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#MidiWorker-disconnect">disconnect</a>(sender:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;signal:&nbsp;bytes,&nbsp;receiver:&nbsp;PySide6.QtCore.<a href="PySide6.QtCore.html#QObject">QObject</a>,&nbsp;member:&nbsp;bytes)&nbsp;-&gt;&nbsp;bool</span></dd></dl>
+
+<hr>
+Data descriptors inherited from Shiboken.Object:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Worker">class <strong>Worker</strong></a>(<a href="PySide6.QtCore.html#QRunnable">PySide6.QtCore.QRunnable</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Worker">Worker</a>(fn,&nbsp;*args,&nbsp;**kwargs)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+The&nbsp;<a href="#Worker">Worker</a>&nbsp;class&nbsp;is&nbsp;a&nbsp;helper&nbsp;class&nbsp;used&nbsp;to&nbsp;execute&nbsp;audio&nbsp;processing&nbsp;tasks&nbsp;in&nbsp;a&nbsp;separate&nbsp;thread,&nbsp;preventing&nbsp;GUI<br>
+blocking&nbsp;while&nbsp;running&nbsp;these&nbsp;tasks.<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;extends&nbsp;the&nbsp;<a href="PySide6.QtCore.html#QRunnable">QRunnable</a>&nbsp;class,&nbsp;making&nbsp;it&nbsp;suitable&nbsp;for&nbsp;use&nbsp;with&nbsp;Qt's&nbsp;concurrent&nbsp;framework&nbsp;for&nbsp;concurrent<br>
+execution.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fn&nbsp;(callable):&nbsp;The&nbsp;function&nbsp;to&nbsp;be&nbsp;executed&nbsp;in&nbsp;the&nbsp;separate&nbsp;thread.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*args:&nbsp;Positional&nbsp;arguments&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;the&nbsp;function.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**kwargs:&nbsp;Keyword&nbsp;arguments&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;the&nbsp;function.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="threads.html#Worker">Worker</a></dd>
+<dd><a href="PySide6.QtCore.html#QRunnable">PySide6.QtCore.QRunnable</a></dd>
+<dd>Shiboken.Object</dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Worker-__init__"><strong>__init__</strong></a>(self, fn, *args, **kwargs) -&gt; None</dt><dd><span class="code">Initialize&nbsp;a&nbsp;<a href="#Worker">Worker</a>&nbsp;instance.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fn&nbsp;(callable):&nbsp;The&nbsp;function&nbsp;to&nbsp;be&nbsp;executed&nbsp;in&nbsp;the&nbsp;separate&nbsp;thread.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*args:&nbsp;Positional&nbsp;arguments&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;the&nbsp;function.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**kwargs:&nbsp;Keyword&nbsp;arguments&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;the&nbsp;function.</span></dd></dl>
+
+<dl><dt><a name="Worker-run"><strong>run</strong></a>(self) -&gt; None</dt><dd><span class="code">Execute&nbsp;the&nbsp;specified&nbsp;function&nbsp;in&nbsp;a&nbsp;separate&nbsp;thread.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;is&nbsp;automatically&nbsp;called&nbsp;when&nbsp;the&nbsp;<a href="#Worker">Worker</a>&nbsp;is&nbsp;started&nbsp;within&nbsp;a&nbsp;QThreadPool.<br>
+It&nbsp;runs&nbsp;the&nbsp;specified&nbsp;function&nbsp;with&nbsp;the&nbsp;provided&nbsp;arguments.</span></dd></dl>
+
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
