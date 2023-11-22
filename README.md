@@ -84,7 +84,7 @@ _____
 
 ### Code Reading and Review
 
-For Code Reading and Review, we have selected this repository to significantly improve the quality and maitainability of the code.
+For Code Reading and Review, we have selected this repository to significantly improve the quality and maitainability of the code. View the full documentation at: https://per-sephone.github.io/SnakeSynth/
 
 ### Contributors:
 1. Jason Gonzalez
@@ -98,6 +98,7 @@ For Code Reading and Review, we have selected this repository to significantly i
 - Added type hints throughout the code base
 - Added docstrings throughout the code base
 - Used linting (black) to normalize the code's formatting
+- Added a pre-commit hook for black
 - Renamed variables and functions to more accurately describe their functionality
 - Refactored large portions of code, primarily in form.py
 - Improved the unit testing framework
@@ -105,3 +106,4 @@ For Code Reading and Review, we have selected this repository to significantly i
 - Added detailed documentation about QTCreator and how to use it for generating the UI
 - Added semantic versioning and a changelog
 - Added version numbers to requirements.txt and added dev requirements
+- Generated documetation using pydoc
