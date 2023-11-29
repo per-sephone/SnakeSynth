@@ -45,17 +45,17 @@ ___
 #### Development with a Virtual Environment
 
 1. Within the project create the virtual environment: `python -m venv venv`.
-2. Activate the virtual environment for your system:\
+2. Activate the virtual environment for your system:
 <pre>
 | Shell      | Command                               |
 | ---------- | ------------------------------------- |
 | bash/zsh   | `$ source <venv>/bin/activate`        |
 | PowerShell | `PS C:\> <venv>\Scripts\Activate.ps1` |
 </pre>
-For more options please review the [venv documentation](https://docs.python.org/3/library/venv.html#how-venvs-work).
-3. Install the required packages: `pip install -r requirements.txt`
-4. Install the development dependencies: `pip install -r dev-requirements.txt`
-5. You may now launch the application within `src/`: `python main.py`
+For more options please review the [venv documentation](https://docs.python.org/3/library/venv.html#how-venvs-work).\
+3. Install the required packages: `pip install -r requirements.txt`\
+4. Install the development dependencies: `pip install -r dev-requirements.txt`\
+5. You may now launch the application within `src/`: `python main.py`\
 
 _____
 
