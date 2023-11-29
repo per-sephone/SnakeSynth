@@ -47,8 +47,8 @@ ___
 1. Within the project create the virtual environment: `python -m venv venv`.
 2. Activate the virtual environment for your system:
 <pre>
-| Shell      | Command                          |
-| ---------- | -------------------------------- |
+| Shell      | Command                             |
+| ---------- | ----------------------------------- |
 | bash/zsh   | `$ source venv/bin/activate`        |
 | PowerShell | `PS C:\> venv\Scripts\Activate.ps1` |
 </pre>
